@@ -3,11 +3,12 @@ import * as S from "./style"
 interface ButtonProps {
     variant: 'primary' | 'secondary',
     label: String
+    onClick?: () => void
   }
 
-const Button = ({variant = 'primary', label}: ButtonProps) => {
+const Button = ({variant = 'primary', label, onClick}: ButtonProps) => {
     return (
-        <S.Button variant={variant}>
+        <S.Button variant={variant} onClick={onClick}>
             {label}
         </S.Button>
     )
