@@ -36,4 +36,43 @@ const ContentBox = styled.div`
     width: 100%;
 `;
 
-export { AccountWrapper, AccountInfoWrapper, FileUploadInput, Avatar, ContentWrapper, ContentBox };
+const AccountInfoForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+`;
+
+const AccountInfoRow = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+`;
+
+const AccountInfoInputWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    width: 100%;
+`;
+
+const AccountInputLabel = styled.label`
+    display: block;
+    color: #4a4a4a;
+    text-indent: 5px;
+    font-size: 12px;
+    margin-bottom: 5px;
+`;
+
+export {
+    AccountWrapper,
+    AccountInfoWrapper,
+    FileUploadInput,
+    Avatar,
+    ContentWrapper,
+    ContentBox,
+    AccountInfoForm,
+    AccountInfoRow,
+    AccountInfoInputWrapper,
+    AccountInputLabel
+};

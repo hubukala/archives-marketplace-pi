@@ -1,5 +1,7 @@
+import AccountDetailsForm from "./_components/account-details-form"
+
 export default function Profile() {
     return (
-        <div>Profile page</div>
+        <AccountDetailsForm />
     )
 }
