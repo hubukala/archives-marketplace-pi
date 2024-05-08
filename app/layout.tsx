@@ -1,6 +1,6 @@
 'use client'
 import "./globals.css";
-import StyledComponentsRegistry from "@/lib/registry";
+import StyledComponentsRegistry from "@/lib/styled-components/registry";
 import NavBar from "./components/layout/navbar/navbar";
 
 
