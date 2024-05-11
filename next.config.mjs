@@ -4,7 +4,7 @@ const nextConfig = {
         styledComponents: true,
     },
     images: {
-        domains: ['dummyimage.com']
+        domains: ['dummyimage.com', 'cdn-images.farfetch-contents.com', 'firebasestorage.googleapis.com']
     }
 };
 
