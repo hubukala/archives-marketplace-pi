@@ -1,7 +1,6 @@
 'use client'
 import SideBar from '@/app/components/layout/sidebar/sidebar';
 import { ShopWrapper } from './_components/style';
-import { useState } from 'react';
 // import { useState, useEffect } from 'react';
 // import { getDocs, query, where, collection } from 'firebase/firestore';
 // import { db } from '../firebaseConfig';
@@ -84,3 +83,4 @@ export default function Shop({
         // </CategoryContent>
     );
 };
+
