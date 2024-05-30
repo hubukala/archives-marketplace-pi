@@ -6,7 +6,7 @@ type ProductsListProps = {
 }
 
 const ProductsList = ({arr}: ProductsListProps) => {
-    return arr.map((item: ProductType) => (
+    return arr?.map((item: ProductType) => (
         <ProductCard
             key={item.id}
             image={item.image}
