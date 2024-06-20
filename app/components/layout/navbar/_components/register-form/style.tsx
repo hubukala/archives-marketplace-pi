@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import { Field } from "formik";
 
-const RegisterFormWrapper = styled.form`
+const RegisterFormWrapper = styled.div`
     display: block;
     text-align: center;
     margin: auto;
@@ -19,7 +20,7 @@ const Label = styled.label`
     padding-bottom: 25px;
 `;
 
-const RegisterInput = styled.input`
+const RegisterInput = styled(Field)`
     margin-bottom: 15px;
     margin-top: 5px;
     height: 2rem;

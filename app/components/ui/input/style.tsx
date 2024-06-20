@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import { ErrorMessage } from "formik";
 
 const InputStyles = [
     `
@@ -21,10 +22,9 @@ const InputsSection = styled.div`
 
 const Input = styled.input(InputStyles);
 
-const InputError = styled.div`
+const InputError = styled(ErrorMessage)`
     color: red;
     margin-bottom: 1rem;
 `;
-
 
 export { InputStyles, Input, InputsSection, InputError };

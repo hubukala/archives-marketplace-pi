@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const BackgroundContainer = styled.div`
     position: fixed;
@@ -21,7 +21,7 @@ const ModalContainer = styled.div`
     justify-content: center;
     align-items: center;
     width: 400px;
-    height: 450px;
+    height: 480px;
     top: 50%;
     left: 50%;
     margin-top: -200px;
