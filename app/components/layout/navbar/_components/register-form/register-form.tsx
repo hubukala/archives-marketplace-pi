@@ -1,50 +1,94 @@
-import Button from "@/app/components/ui/button/button"
-import { Description, RegisterFormWrapper, RegisterInput } from "./style"
+"use client";
+import Button from "@/app/components/ui/button/button";
+import { Description, RegisterFormWrapper, RegisterInput } from "./style";
+import axios from "axios";
+import * as Yup from "yup";
+import { ErrorMessage, Form, Formik } from "formik";
+import { InputError } from "@/app/components/ui/input/style";
 
-type RegisterFormProps = {
-    setRegisterModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+interface FormValues {
+    email: string;
+    password: string;
 }
 
-const RegisterForm = ({setRegisterModalOpen}: RegisterFormProps) => {
+type RegisterFormProps = {
+    setRegisterModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const RegisterForm = ({ setRegisterModalOpen }: RegisterFormProps) => {
+    const initialValues: FormValues = {
+        email: "",
+        password: "",
+    };
+
+    const validationSchema = Yup.object({
+        email: Yup.string().email("Invalid email format").required("Required"),
+        password: Yup.string()
+            .min(6, "Password must be at least 6 characters long")
+            .required("Field required"),
+    });
+
+    const onSubmit = async (
+        values: FormValues,
+        { setSubmitting, setStatus }: any
+    ) => {
+        console.log("submitted");
+        try {
+            const response = await axios.post("/api/register", values);
+            setStatus({ success: true });
+            setRegisterModalOpen(false);
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response) {
+                setStatus({ error: err.response.data.error });
+            } else {
+                setStatus({ error: "An unexpected error occurred" });
+            }
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     return (
         <RegisterFormWrapper>
             <h1>Sign in</h1>
             <Description>
                 Create account to get full access to buying and selling.
             </Description>
-            <div>
-                Username
-            </div>
-            <RegisterInput
-                type="email"
-                name="email"
-                onChange={() => console.log('test')}
-            />
-            <div>
-                Password
-            </div>
-            <RegisterInput
-                type="password"
-                name="password"
-                onChange={() => console.log('test')}
-            />
-            <p>
-                Already have an account? Log in
-            </p>
-            <div>
-                <Button
-                    label="LOGIN"
-                    variant="primary"
-                    onClick={() => console.log('test')}
-                />
-                <Button
-                    label="CLOSE"
-                    variant="secondary"
-                    onClick={() => setRegisterModalOpen(false)}
-                />
-            </div>
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+            >
+                {() => (
+                    <Form>
+                        <div>Username</div>
+                        <RegisterInput type="email" id="email" name="email" />
+                        <InputError name="email" component="div" />
+                        <div>Password</div>
+                        <RegisterInput
+                            type="password"
+                            id="password"
+                            name="password"
+                        />
+                        <InputError name="password" component="div" />
+                        <p>Already have an account? Log in</p>
+                        <div>
+                            <Button
+                                label="REGISTER"
+                                variant="primary"
+                                type="submit"
+                            />
+                            <Button
+                                label="CLOSE"
+                                variant="secondary"
+                                onClick={() => setRegisterModalOpen(false)}
+                            />
+                        </div>
+                    </Form>
+                )}
+            </Formik>
         </RegisterFormWrapper>
-    )
-}
+    );
+};
 
-export default RegisterForm
+export default RegisterForm;

@@ -1,38 +1,34 @@
-import Button from "@/app/components/ui/button/button"
-import { Description, LoginFormWrapper, LoginInput } from "./style"
+import Button from "@/app/components/ui/button/button";
+import { Description, LoginFormWrapper, LoginInput } from "./style";
 
 type LoginFormProps = {
-    setLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
+    setLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const LoginForm = ({setLoginModalOpen}: LoginFormProps) => {
+const LoginForm = ({ setLoginModalOpen }: LoginFormProps) => {
     return (
         <LoginFormWrapper>
             <h1>Sign in</h1>
             <Description>
                 To post your item for sale or make a purchase.
             </Description>
-            <div>
-                Username
-            </div>
+            <div>Username</div>
             <LoginInput
                 type="email"
                 name="email"
-                onChange={() => console.log('test')}
+                onChange={() => console.log("test")}
             />
-            <div>
-                Password
-            </div>
+            <div>Password</div>
             <LoginInput
                 type="password"
                 name="password"
-                onChange={() => console.log('test')}
+                onChange={() => console.log("test")}
             />
             <div>
                 <Button
                     label="LOGIN"
                     variant="primary"
-                    onClick={() => console.log('test')}
+                    onClick={() => console.log("test")}
                 />
                 <Button
                     label="CLOSE"
@@ -41,7 +37,7 @@ const LoginForm = ({setLoginModalOpen}: LoginFormProps) => {
                 />
             </div>
         </LoginFormWrapper>
-    )
-}
+    );
+};
 
-export default LoginForm
+export default LoginForm;
