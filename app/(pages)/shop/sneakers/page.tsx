@@ -1,7 +1,7 @@
-'use client'
+"use client";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { db } from "@/lib/firebase/firebase-config";
+import { db } from "@/lib/firebase/config";
 import FilterArray from "@/app/utils/filter-array";
 import { ProductsContainer } from "../_components/style";
 import ProductsList from "@/app/components/ui/products-list/products-list";
@@ -13,8 +13,8 @@ export default function Sneakers() {
     useEffect(() => {
         const fetchData = async () => {
             const q = query(
-                collection(db, 'products'),
-                where('available', '==', true),
+                collection(db, "products"),
+                where("available", "==", true)
             );
             const querySnapshot = await getDocs(q);
             const newData: ProductType[] = [];
@@ -33,14 +33,17 @@ export default function Sneakers() {
             });
             setData(newData);
         };
-        fetchData()
-    }, [])
+        fetchData();
+    }, []);
 
-    const FilteredProducts = FilterArray({cat: 'footwear', arr: data as ProductType[]});
+    const FilteredProducts = FilterArray({
+        cat: "footwear",
+        arr: data as ProductType[],
+    });
 
     return (
         <ProductsContainer>
-            <ProductsList arr={FilteredProducts as ProductType[]}/>
+            <ProductsList arr={FilteredProducts as ProductType[]} />
         </ProductsContainer>
-    )
+    );
 }

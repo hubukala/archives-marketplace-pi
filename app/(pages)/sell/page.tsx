@@ -1,7 +1,5 @@
-import SellForm from "./_components/sell-item-form"
+import SellForm from "./_components/sell-item-form";
 
 export default function Sell() {
-    return (
-        <SellForm />
-    )
+    return <SellForm />;
 }

@@ -1,25 +1,29 @@
-'use client'
-import { useEffect, useState } from 'react';
+"use client";
+import { useEffect, useState } from "react";
 // import { db, storage } from '../firebaseConfig';
 // import { collection, doc, setDoc } from 'firebase/firestore';
 // import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 // import { auth } from '../firebaseConfig';
 // import { uuidv4 } from '@firebase/util';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from "formik";
+import * as Yup from "yup";
 // import SuccessPopup from './SuccessPopup';
 import {
     FileUploadButton,
     FileUploadInput,
     FilesPreviewWrapper,
-    FilesPreviewElement, 
-} from '@/app/components/ui/file-upload/style';
-import { Input, InputsSection, InputError } from '@/app/components/ui/input/style';
-import { Dropdown } from '@/app/components/ui/dropdown/style';
-import { TextArea } from '@/app/components/ui/text-area/style';
-import { FormContainer, PostItemForm } from './style';
-import Button from '@/app/components/ui/button/button';
-import Image from 'next/image';
+    FilesPreviewElement,
+} from "@/app/components/ui/file-upload/style";
+import {
+    Input,
+    InputsSection,
+    InputError,
+} from "@/app/components/ui/input/style";
+import { Dropdown } from "@/app/components/ui/dropdown/style";
+import { TextArea } from "@/app/components/ui/text-area/style";
+import { FormContainer, PostItemForm } from "./style";
+import Button from "@/app/components/ui/button/button";
+import Image from "next/image";
 
 const SellForm = () => {
     // const productsRef = collection(db, 'products');
@@ -68,30 +72,30 @@ const SellForm = () => {
 
     const formik = useFormik({
         initialValues: {
-            category: '',
-            designer: '',
-            size: '',
-            itemTitle: '',
-            color: '',
-            condition: '',
-            description: '',
-            price: '',
-            shippingCarrier: '',
-            shippingPrice: '',
+            category: "",
+            designer: "",
+            size: "",
+            itemTitle: "",
+            color: "",
+            condition: "",
+            description: "",
+            price: "",
+            shippingCarrier: "",
+            shippingPrice: "",
         },
         validationSchema: Yup.object({
-            category: Yup.string().required('Please select category'),
-            designer: Yup.string().required('Designer name is required'),
-            size: Yup.string().required('Size is required'),
-            itemTitle: Yup.string().required('Item title is required'),
-            color: Yup.string().required('Color is required'),
-            condition: Yup.string().required('Please select condition'),
-            description: Yup.string().required('Description is required'),
-            price: Yup.number().required('Price is required'),
+            category: Yup.string().required("Please select category"),
+            designer: Yup.string().required("Designer name is required"),
+            size: Yup.string().required("Size is required"),
+            itemTitle: Yup.string().required("Item title is required"),
+            color: Yup.string().required("Color is required"),
+            condition: Yup.string().required("Please select condition"),
+            description: Yup.string().required("Description is required"),
+            price: Yup.number().required("Price is required"),
             shippingCarrier: Yup.string().required(
-                'Please select shipping carrier',
+                "Please select shipping carrier"
             ),
-            shippingPrice: Yup.number().required('Shipping price is required'),
+            shippingPrice: Yup.number().required("Shipping price is required"),
             // file: Yup.mixed().required('Please upload at least one image'),
         }),
         onSubmit: async (values) => {
@@ -105,7 +109,7 @@ const SellForm = () => {
             (el) => (
                 setImageUpload((prev) => [...prev, el]),
                 setFilesPreview((prev) => [...prev, URL.createObjectURL(el)])
-            ),
+            )
         );
     };
 
@@ -240,7 +244,7 @@ const SellForm = () => {
                         <option value="dhl">DHL</option>
                         <option value="fedex">FEDEX</option>
                         <option value="ups">UPS</option>
-                    </Dropdown>{' '}
+                    </Dropdown>{" "}
                     <br />
                     {formik.touched.shippingCarrier &&
                     formik.errors.shippingCarrier ? (
@@ -297,7 +301,7 @@ const SellForm = () => {
                     <InputError>{formik.errors.file}</InputError>
                 ) : null}
                 <br />
-                <Button variant='primary' label={'POST ITEM'}/>
+                <Button variant="primary" label={"POST ITEM"} />
             </form>
             {/* <SuccessPopup
                 successMessage={successMessage}
