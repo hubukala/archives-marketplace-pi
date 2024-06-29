@@ -1,25 +1,50 @@
 "use client";
-import useSWR from "swr";
-import axios from "axios";
-import FilterArray from "@/app/utils/filter-array";
-import { ProductsContainer } from "./_components/style";
+import { ProductsContainer, ShopWrapper } from "./_components/style";
 import ProductsList from "@/app/components/ui/products-list/products-list";
 import { ProductType } from "@/types/Product";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import useProducts from "@/lib/api/products";
+import SideBar from "@/app/components/layout/sidebar/sidebar";
+import { useState } from "react";
 
 const All: React.FC = () => {
-    const { data, error, isLoading } = useSWR("/api/products", fetcher);
+    const [category, setCategory] = useState(undefined);
+    const { products, isLoading, isError } = useProducts(category);
 
-    if (error) return <div>Failed to load products</div>;
-    if (isLoading) return <div>Loading...</div>;
-
-    const FilteredProducts = FilterArray({ cat: "All", arr: data?.products });
+    const SIDEBAR_ITEMS = [
+        {
+            label: "all",
+            category: undefined,
+        },
+        {
+            label: "tops",
+            category: "tops",
+        },
+        {
+            label: "bottoms",
+            category: "bottoms",
+        },
+        {
+            label: "sneakers",
+            category: "footwear",
+        },
+        {
+            label: "accessories",
+            category: "accessories",
+        },
+    ];
 
     return (
-        <ProductsContainer>
-            <ProductsList arr={FilteredProducts as ProductType[]} />
-        </ProductsContainer>
+        <ShopWrapper>
+            <SideBar sideBarItems={SIDEBAR_ITEMS} setCategory={setCategory} />
+            <ProductsContainer>
+                {isLoading ? (
+                    <p>Loading...</p>
+                ) : (
+                    <ProductsList arr={products as ProductType[]} />
+                )}
+                {isError && <p>Failed to fetch products</p>}
+            </ProductsContainer>
+        </ShopWrapper>
     );
 };
 
