@@ -34,7 +34,7 @@ const RegisterForm = ({ setRegisterModalOpen }: RegisterFormProps) => {
     ) => {
         console.log("submitted");
         try {
-            const response = await axios.post("/api/register", values);
+            const response = await axios.post("api/auth/register", values);
             setStatus({ success: true });
             setRegisterModalOpen(false);
         } catch (err) {
