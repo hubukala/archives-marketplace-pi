@@ -2,20 +2,21 @@ import { useRouter } from "next/navigation";
 import { SideBarWrapper, SideBarButton } from "./style";
 
 type SideBarProps = {
-    sideBarItems: Array<Record<string, string>>
-}
+    sideBarItems: Array<Record<string, string | undefined>>;
+    setCategory: any;
+};
 
-const SideBar = ({sideBarItems}: SideBarProps) => {
-    const router = useRouter()
+const SideBar = ({ sideBarItems, setCategory }: SideBarProps) => {
+    const router = useRouter();
 
     return (
         <SideBarWrapper>
             {sideBarItems?.map((item) => (
                 <SideBarButton
                     key={item.label}
-                    onClick={() => router.push(item.route)}
+                    onClick={() => setCategory(item?.category)}
                 >
-                    {item.label.toUpperCase()}
+                    {item?.label && item.label.toUpperCase()}
                 </SideBarButton>
             ))}
         </SideBarWrapper>
