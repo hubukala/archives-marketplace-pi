@@ -4,8 +4,6 @@ import { getAuth } from "firebase-admin/auth";
 import { db } from "@/lib/firebase/config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { NextResponse } from "next/server";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth as auth2 } from "@/lib/firebase/config";
 
 customInitApp();
 
