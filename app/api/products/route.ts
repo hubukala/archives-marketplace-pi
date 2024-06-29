@@ -1,15 +1,20 @@
-// app/api/products/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "@/lib/firebase/firebase-config";
+import { db } from "@/lib/firebase/config";
 import { ProductType } from "@/types/Product";
 
 export async function GET(req: NextRequest) {
+    const { searchParams } = new URL(req.url);
+    const category = searchParams.get("category");
+
     try {
-        const q = query(
-            collection(db, "products"),
-            where("available", "==", true)
-        );
+        const q = category
+            ? query(
+                  collection(db, "products"),
+                  where("available", "==", true),
+                  where("category", "==", category)
+              )
+            : query(collection(db, "products"), where("available", "==", true));
         const querySnapshot = await getDocs(q);
         const products: ProductType[] = [];
         querySnapshot.forEach((doc) => {
@@ -26,9 +31,9 @@ export async function GET(req: NextRequest) {
             });
         });
         return NextResponse.json({ products });
-    } catch (error) {
+    } catch (err) {
         return NextResponse.json(
-            { error: "Failed to fetch products" },
+            { error: "Failed to fetch products", err },
             { status: 500 }
         );
     }
