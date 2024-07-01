@@ -76,9 +76,6 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
             shippingPrice,
         } = await req.json();
 
-        // const formData = await req.json();
-        // console.log(formData);
-
         await setDoc(doc(db, "products", uniqueId), {
             user_id: uid,
             product_id: uniqueId,

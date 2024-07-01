@@ -4,14 +4,11 @@ import { getAuth } from "firebase-admin/auth";
 import { db } from "@/lib/firebase/config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { NextResponse } from "next/server";
+import { auth as auth2 } from "@/lib/firebase/config";
 
 customInitApp();
 
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== "GET") {
-        return res.status(405).json({ error: "Method not allowed" });
-    }
-
     const auth = getAuth();
 
     try {
@@ -20,7 +17,6 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
         if (!token) {
             return res.status(401).json({ error: "Unauthorized" });
         }
-        console.log("api token after");
         const decodedToken = await auth.verifyIdToken(token);
         const uid = decodedToken.uid;
         const userDoc = await getDoc(doc(db, "users", uid));
@@ -43,10 +39,6 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export async function POST(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== "POST") {
-        return res.status(405).json({ error: "Method not allowed" });
-    }
-
     const auth = getAuth();
 
     try {
@@ -60,8 +52,9 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
         const userData = await req.json();
 
         console.log("auth1 uid: ", uid);
-
-        await setDoc(doc(db, "users", uid), userData, { merge: true });
+        await setDoc(doc(db, "users", uid), userData, {
+            merge: true,
+        });
 
         return NextResponse.json(
             { status: 200 },
