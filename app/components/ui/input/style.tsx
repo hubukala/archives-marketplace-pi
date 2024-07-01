@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { ErrorMessage } from "formik";
+import { Field } from "formik";
 
 const InputStyles = [
     `
@@ -16,11 +17,10 @@ const InputStyles = [
 const InputsSection = styled.div`
     display: flex;
     flex-direction: column;
-    margin-left: 24px;
-    margin-right: 24px;
+    gap: 14px;
 `;
 
-const Input = styled.input(InputStyles);
+const Input = styled(Field)(InputStyles);
 
 const InputError = styled(ErrorMessage)`
     color: red;

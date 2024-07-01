@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100%;
+    margin: 24px;
 `;
 
 const PostItemForm = styled.div`

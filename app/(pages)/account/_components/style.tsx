@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import styled from 'styled-components';
+import Image from "next/image";
+import styled from "styled-components";
 
 const AccountWrapper = styled.div`
     margin: 2rem;
@@ -36,7 +36,7 @@ const ContentBox = styled.div`
     width: 100%;
 `;
 
-const AccountInfoForm = styled.form`
+const AccountInfoForm = styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -74,5 +74,5 @@ export {
     AccountInfoForm,
     AccountInfoRow,
     AccountInfoInputWrapper,
-    AccountInputLabel
+    AccountInputLabel,
 };
