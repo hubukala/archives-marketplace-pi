@@ -1,34 +1,48 @@
-'use client'
-import { useState } from "react";
-import { AccountWrapper, AccountInfoWrapper, FileUploadInput, Avatar, ContentWrapper, ContentBox } from "./_components/style";
+"use client";
+import { useEffect, useState } from "react";
+import {
+    AccountWrapper,
+    AccountInfoWrapper,
+    FileUploadInput,
+    Avatar,
+    ContentWrapper,
+    ContentBox,
+} from "./_components/style";
 import SideBar from "@/app/components/layout/sidebar/sidebar";
+import { useRouter } from "next/navigation";
 
 export default function Account({
     children,
-  }: Readonly<{
+}: Readonly<{
     children: React.ReactNode;
-  }>) {
+}>) {
+    const router = useRouter();
+    const [category, setCategory] = useState("/account");
+
+    useEffect(() => {
+        router.push(category);
+    }, [category, router]);
 
     const SIDEBAR_ITEMS = [
         {
-            label: 'account',
-            route: '/account'
+            label: "account",
+            category: "/account",
+        },
+        // {
+        //     label: "messages",
+        //     category: "/account/messages",
+        // },
+        {
+            label: "orders",
+            category: "/account/orders",
         },
         {
-            label: 'messages',
-            route: '/account/messages'
+            label: "my items",
+            category: "/account/posted-items",
         },
-        {
-            label: 'orders',
-            route: '/account/orders'
-        },
-        {
-            label: 'my items',
-            route: '/account/posted-items'
-        },
-    ]
+    ];
 
-    return (       
+    return (
         <AccountWrapper>
             <AccountInfoWrapper>
                 <FileUploadInput
@@ -41,22 +55,22 @@ export default function Account({
                 <Avatar
                     width={100}
                     height={100}
-                    src={'https://dummyimage.com/600x400/000/fff'}
+                    src={"https://dummyimage.com/600x400/000/fff"}
                     alt="AV"
                     // onClick={handleAvatarClick}
-                />{' '}
+                />{" "}
                 <br />
                 email adress <br />
-                Joined in:{' '}
-                account created date
+                Joined in: account created date
             </AccountInfoWrapper>
-        <ContentWrapper>
-            {/* sidebar */}
-            <SideBar
-                sideBarItems={SIDEBAR_ITEMS}
-            />
-            <ContentBox>{children}</ContentBox>
-        </ContentWrapper>
-    </AccountWrapper>
+            <ContentWrapper>
+                {/* sidebar */}
+                <SideBar
+                    sideBarItems={SIDEBAR_ITEMS}
+                    setCategory={setCategory}
+                />
+                <ContentBox>{children}</ContentBox>
+            </ContentWrapper>
+        </AccountWrapper>
     );
-  }
+}
