@@ -15,7 +15,10 @@ export default function PostedItems() {
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
-                <ProductsList arr={listings as ProductType[]} />
+                <ProductsList
+                    arr={listings as ProductType[]}
+                    message="You don't have items listed for sale"
+                />
             )}
             {isError && <p>Failed to fetch products</p>}
         </ProductsContainer>
