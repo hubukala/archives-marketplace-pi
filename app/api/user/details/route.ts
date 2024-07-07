@@ -12,7 +12,6 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     const auth = getAuth();
 
     try {
-        console.log("api token before");
         const token = req?.headers.get("authorization").split(" ")[1];
         if (!token) {
             return res.status(401).json({ error: "Unauthorized" });
@@ -51,7 +50,6 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
         // user data bledny format danych
         const userData = await req.json();
 
-        console.log("auth1 uid: ", uid);
         await setDoc(doc(db, "users", uid), userData, {
             merge: true,
         });

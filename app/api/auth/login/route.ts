@@ -30,7 +30,6 @@ export async function POST(req: NextRequest) {
             path: "/",
         });
 
-        console.log("Token set in cookie");
         return response;
     } catch (error) {
         console.error("Error logging in user:", error);

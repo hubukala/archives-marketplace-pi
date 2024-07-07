@@ -38,6 +38,8 @@ export async function GET(req: NextRequest) {
                 id: doc.data().product_id,
                 size: doc.data().size,
                 title: doc.data().title,
+                user_id: doc.data().user_id,
+                available: doc.data().available,
             });
         });
         return NextResponse.json({ products });
