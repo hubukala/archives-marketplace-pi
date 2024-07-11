@@ -1,5 +1,5 @@
 "use client";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import "react-image-gallery/styles/css/image-gallery.css";
 import useProduct from "@/lib/api/product";
 import {
@@ -20,6 +20,7 @@ import { getTodaysDate } from "@/app/utils/get-todays-date";
 
 export default function Page() {
     const pathname = usePathname();
+    const router = useRouter();
     const slug = pathname.split("/")[2];
     const { product, isLoading, isError } = useProduct(slug);
     const { productPurchase, loading, error } = useProductPurchase();
@@ -42,6 +43,10 @@ export default function Page() {
         } else {
             console.log("Failed to purchase an item");
         }
+    };
+
+    const handleEditProduct = () => {
+        router.push(`/sell/edit/${product?.id}`);
     };
 
     if (isLoading) {
@@ -80,7 +85,7 @@ export default function Page() {
                                 <Button
                                     label="EDIT"
                                     variant="primary"
-                                    onClick={() => console.log("edit")}
+                                    onClick={handleEditProduct}
                                 />
                             </>
                         ) : (

@@ -11,4 +11,7 @@ export interface ProductType {
     user_id: string;
     buyer_id?: string;
     available?: boolean;
+    color?: string;
+    shipping_carrier?: string;
+    shipping_price?: string;
 }

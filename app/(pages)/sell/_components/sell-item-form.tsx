@@ -1,13 +1,8 @@
 "use client";
 import { useState } from "react";
-// import { db, storage } from '../firebaseConfig';
-// import { collection, doc, setDoc } from 'firebase/firestore';
-// import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-// import { auth } from '../firebaseConfig';
 import { v4 as uuidv4 } from "uuid";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-// import SuccessPopup from './SuccessPopup';
 import {
     FileUploadButton,
     FileUploadInput,
@@ -23,13 +18,30 @@ import { FormContainer } from "./style";
 import Button from "@/app/components/ui/button/button";
 import Image from "next/image";
 import useProductAdd from "@/lib/api/product-add";
+import useProductUpdate from "@/lib/api/product-update";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/lib/firebase/config";
+import { notify } from "@/app/components/ui/toast-notification/toast-notification";
 
-const SellForm = () => {
+type SellFormPropsType = {
+    type?: "edit" | "create";
+    productInitialValues?: any;
+    isValuesLoading?: boolean;
+};
+
+const SellForm = ({
+    type,
+    productInitialValues,
+    isValuesLoading,
+}: SellFormPropsType) => {
     // const productsRef = collection(db, 'products');
     const uniqueId = uuidv4();
     const { productAdd, loading, error } = useProductAdd();
+    const {
+        productUpdate,
+        loading: productUpdateLoading,
+        error: productUpdateError,
+    } = useProductUpdate();
     const [successMessage, setSuccessMessage] = useState(false);
 
     const [filesPreview, setFilesPreview] = useState([]);
@@ -55,16 +67,16 @@ const SellForm = () => {
     };
 
     const initialValues = {
-        category: "",
-        designer: "",
-        size: "",
-        itemTitle: "",
-        color: "",
-        condition: "",
-        description: "",
-        price: "",
-        shippingCarrier: "",
-        shippingPrice: "",
+        category: productInitialValues?.category ?? "",
+        designer: productInitialValues?.designer ?? "",
+        size: productInitialValues?.size ?? "",
+        itemTitle: productInitialValues?.title ?? "",
+        color: productInitialValues?.color ?? "",
+        condition: productInitialValues?.condition ?? "",
+        description: productInitialValues?.description ?? "",
+        price: productInitialValues?.price ?? "",
+        shippingCarrier: productInitialValues?.shipping_carrier ?? "",
+        shippingPrice: productInitialValues?.shipping_price ?? "",
     };
 
     const validationSchema = Yup.object({
@@ -83,18 +95,36 @@ const SellForm = () => {
     });
 
     const onSubmit = async (values) => {
-        const imageUrls = await uploadFile(imageUpload, uniqueId);
+        if (type === "edit") {
+            const payload = {
+                ...values,
+                id: productInitialValues.id,
+            };
 
-        const payload = {
-            ...values,
-            images: imageUrls,
-        };
-
-        const result = await productAdd(payload);
-        if (result) {
-            console.log("Product uploaded successfully");
+            const result = await productUpdate(payload);
+            if (result) {
+                notify({
+                    type: "success",
+                    message: "Product updated successfully",
+                });
+                console.log("Product updated successfully");
+            } else {
+                console.log("Failed to update item");
+            }
         } else {
-            console.log("Failed to upload item");
+            const imageUrls = await uploadFile(imageUpload, uniqueId);
+
+            const payload = {
+                ...values,
+                images: imageUrls,
+            };
+
+            const result = await productAdd(payload);
+            if (result) {
+                console.log("Product uploaded successfully");
+            } else {
+                console.log("Failed to upload item");
+            }
         }
     };
 
@@ -112,6 +142,10 @@ const SellForm = () => {
         setFilesPreview(filesPreview.filter((o, i) => index !== i));
         setImageUpload(imageUpload.filter((o, i) => index !== i));
     };
+
+    if (isValuesLoading) {
+        return <p>Loading...</p>;
+    }
 
     return (
         <FormContainer>
@@ -212,6 +246,7 @@ const SellForm = () => {
                         <InputsSection>
                             <h3>SHIPPING</h3>
                             <Field
+                                type="text"
                                 name="shippingCarrier"
                                 className="formik-field"
                                 id="shipping"
