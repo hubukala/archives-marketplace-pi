@@ -40,6 +40,9 @@ export async function GET(req: NextRequest) {
                 buyer_id: doc.data().buyer_id,
                 user_id: doc.data().user_id,
                 available: doc.data().available,
+                color: doc.data().color,
+                shipping_carrier: doc.data().shipping_carrier,
+                shipping_price: doc.data().shipping_price,
             });
         });
         return NextResponse.json({ product });
@@ -90,8 +93,8 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
                 category,
                 condition,
                 price: parseFloat(price),
-                shippingCarrier,
-                shippingPrice: parseFloat(shippingPrice),
+                shipping_carrier: shippingCarrier,
+                shipping_price: parseFloat(shippingPrice),
             },
             {
                 merge: true,

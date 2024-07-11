@@ -40,6 +40,9 @@ export async function GET(req: NextRequest) {
                 title: doc.data().title,
                 user_id: doc.data().user_id,
                 available: doc.data().available,
+                color: doc.data().color,
+                shipping_carrier: doc.data().shipping_carrier,
+                shipping_price: doc.data().shipping_price,
             });
         });
         return NextResponse.json({ products });
@@ -91,9 +94,71 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
             condition,
             price: parseFloat(price),
             images,
-            shippingCarrier,
-            shippingPrice: parseFloat(shippingPrice),
+            shipping_carrier: shippingCarrier,
+            shipping_price: parseFloat(shippingPrice),
         });
+
+        return NextResponse.json(
+            { message: "Product uploaded successfully" },
+            { status: 200 }
+        );
+    } catch (err) {
+        console.log("catch", err);
+        return NextResponse.json(
+            { error: "Failed to fetch products", err },
+            { status: 500 }
+        );
+    }
+}
+
+export async function PUT(req: NextApiRequest, res: NextApiResponse) {
+    const auth = getAuth();
+    const token = req?.headers.get("authorization").split(" ")[1];
+    if (!token) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    try {
+        const decodedToken = await auth.verifyIdToken(token);
+        const uid = decodedToken.uid;
+
+        const {
+            itemTitle,
+            description,
+            size,
+            color,
+            designer,
+            category,
+            condition,
+            price,
+            // images,
+            shippingCarrier,
+            shippingPrice,
+            id,
+        } = await req.json();
+
+        await setDoc(
+            doc(db, "products", id),
+            {
+                user_id: uid,
+                product_id: id,
+                available: true,
+                title: itemTitle.toLocaleUpperCase(),
+                description,
+                size,
+                color,
+                designer,
+                category,
+                condition,
+                price: parseFloat(price),
+                // images,
+                shipping_carrier: shippingCarrier,
+                shipping_price: parseFloat(shippingPrice),
+            },
+            {
+                merge: true,
+            }
+        );
 
         return NextResponse.json(
             { message: "Product uploaded successfully" },
