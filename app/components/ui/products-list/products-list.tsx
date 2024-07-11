@@ -9,18 +9,18 @@ type ProductsListProps = {
 const ProductsList = ({ arr, message }: ProductsListProps) => {
     return (
         <>
-            {arr.length < 1 ? (
+            {arr?.length < 1 ? (
                 <p>{message && message}</p>
             ) : (
                 arr?.map((item: ProductType) => (
                     <ProductCard
-                        key={item.id}
-                        image={item.image}
-                        title={item.title}
-                        size={item.size}
-                        price={item.price}
-                        id={item.id}
-                        category={item.category}
+                        key={item?.id}
+                        image={item?.image}
+                        title={item?.title}
+                        size={item?.size}
+                        price={item?.price}
+                        id={item?.id}
+                        category={item?.category}
                     />
                 ))
             )}
