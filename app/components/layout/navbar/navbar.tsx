@@ -69,11 +69,13 @@ const NavBar = ({ setLoginModalOpen, setRegisterModalOpen }: NavBarProps) => {
                             label="ACCOUNT"
                             variant="primary"
                             onClick={() => router.push("/account")}
+                            isLoading={loading}
                         />
                         <Button
                             label="LOG OUT"
                             variant="secondary"
                             onClick={handleSignOut}
+                            isLoading={loading}
                         />
                     </>
                 ) : (
@@ -82,11 +84,13 @@ const NavBar = ({ setLoginModalOpen, setRegisterModalOpen }: NavBarProps) => {
                             label="LOGIN"
                             variant="primary"
                             onClick={() => handleOpenModal("login")}
+                            isLoading={loading}
                         />
                         <Button
                             label="SIGN UP"
                             variant="secondary"
                             onClick={() => handleOpenModal("register")}
+                            isLoading={loading}
                         />
                     </>
                 )}

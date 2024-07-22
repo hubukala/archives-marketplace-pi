@@ -1,5 +1,11 @@
 import styled from "styled-components";
 
+const LoadingWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    width: 100%;
+`;
+
 const ShopWrapper = styled.div`
     display: flex;
 `;
@@ -12,4 +18,4 @@ const ProductsContainer = styled.div`
     flex-flow: wrap;
 `;
 
-export { ShopWrapper, ProductsContainer };
+export { LoadingWrapper, ShopWrapper, ProductsContainer };
