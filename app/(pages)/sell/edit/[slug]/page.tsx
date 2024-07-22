@@ -2,6 +2,7 @@
 import useProduct from "@/lib/api/product";
 import { usePathname } from "next/navigation";
 import SellForm from "../../_components/sell-item-form";
+import Loader from "@/app/components/ui/loader/loader";
 
 export default function Page() {
     const pathname = usePathname();
@@ -9,7 +10,7 @@ export default function Page() {
     const { product, isLoading, isError } = useProduct(slug);
 
     if (isLoading) {
-        return <p>Loading...</p>;
+        return <Loader />;
     }
 
     return (

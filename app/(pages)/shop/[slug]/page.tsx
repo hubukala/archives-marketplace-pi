@@ -17,6 +17,7 @@ import useProductPurchase from "@/lib/api/product-purchase";
 import { auth } from "@/lib/firebase/config";
 import { notify } from "@/app/components/ui/toast-notification/toast-notification";
 import { getTodaysDate } from "@/app/utils/get-todays-date";
+import Loader from "@/app/components/ui/loader/loader";
 
 export default function Page() {
     const pathname = usePathname();
@@ -28,9 +29,8 @@ export default function Page() {
 
     const handlePurchaseClicked = async () => {
         const payload = {
-            buyerId: uid as string,
-            purchaseDate: getTodaysDate(),
             productId: product?.id as string,
+            purchaseDate: getTodaysDate(),
         };
 
         const result = await productPurchase(payload);
@@ -50,12 +50,15 @@ export default function Page() {
     };
 
     if (isLoading) {
-        return <p>Loading...</p>;
+        return (
+            <ProductSection>
+                <Loader />
+            </ProductSection>
+        );
     }
 
     return (
         <div>
-            {isLoading && <p>Loading...</p>}
             {isError && <p>Failed to fetch product</p>}
             <ProductSection>
                 <GallerySection>

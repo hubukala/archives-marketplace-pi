@@ -1,3 +1,5 @@
+import { LoadingWrapper } from "@/app/(pages)/shop/_components/style";
+import Loader from "../loader/loader";
 import * as S from "./style";
 
 export interface ButtonProps {
@@ -6,6 +8,7 @@ export interface ButtonProps {
     type?: "button" | "reset" | "submit" | undefined;
     disabled?: boolean;
     onClick?: () => void;
+    isLoading?: boolean;
 }
 
 const Button = ({
@@ -14,6 +17,7 @@ const Button = ({
     type,
     disabled,
     onClick,
+    isLoading,
 }: ButtonProps) => {
     return (
         <S.Button
@@ -22,7 +26,13 @@ const Button = ({
             type={type ?? "submit"}
             disabled={disabled}
         >
-            {label}
+            {isLoading ? (
+                <LoadingWrapper>
+                    <Loader size={"small"} />
+                </LoadingWrapper>
+            ) : (
+                label
+            )}
         </S.Button>
     );
 };

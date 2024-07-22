@@ -3,17 +3,15 @@ import { useUserListings } from "@/lib/api/user-listings";
 import { ProductsContainer } from "../../shop/_components/style";
 import ProductsList from "@/app/components/ui/products-list/products-list";
 import { ProductType } from "@/types/Product";
+import Loader from "@/app/components/ui/loader/loader";
 
 export default function PostedItems() {
     const { listings, isLoading, isError } = useUserListings();
 
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error loading listings</div>;
-
     return (
         <ProductsContainer>
             {isLoading ? (
-                <p>Loading...</p>
+                <Loader />
             ) : (
                 <ProductsList
                     arr={listings as ProductType[]}

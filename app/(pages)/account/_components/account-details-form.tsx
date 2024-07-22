@@ -12,6 +12,7 @@ import Button from "@/app/components/ui/button/button";
 import { useUserDetails } from "@/lib/api/user-details";
 import useAuth from "@/app/hooks/useAuth";
 import { Field, Form, Formik } from "formik";
+import Loader from "@/app/components/ui/loader/loader";
 
 const AccountDetailsForm = () => {
     const { user, loading } = useAuth();
@@ -62,7 +63,11 @@ const AccountDetailsForm = () => {
     };
 
     if (loading) {
-        return <p>Loading...</p>;
+        return (
+            <AccountInfoForm>
+                <Loader />
+            </AccountInfoForm>
+        );
     }
 
     return (

@@ -5,6 +5,8 @@ import { ProductType } from "@/types/Product";
 import useProducts from "@/lib/api/products";
 import SideBar from "@/app/components/layout/sidebar/sidebar";
 import { useState } from "react";
+import Loader from "@/app/components/ui/loader/loader";
+import { LoadingWrapper } from "./_components/style";
 
 const All: React.FC = () => {
     const [category, setCategory] = useState(undefined);
@@ -38,9 +40,14 @@ const All: React.FC = () => {
             <SideBar sideBarItems={SIDEBAR_ITEMS} setCategory={setCategory} />
             <ProductsContainer>
                 {isLoading ? (
-                    <p>Loading...</p>
+                    <LoadingWrapper>
+                        <Loader />
+                    </LoadingWrapper>
                 ) : (
-                    <ProductsList arr={products as ProductType[]} />
+                    <ProductsList
+                        arr={products as ProductType[]}
+                        message="No products found in this category"
+                    />
                 )}
                 {isError && <p>Failed to fetch products</p>}
             </ProductsContainer>

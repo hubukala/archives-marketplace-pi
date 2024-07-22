@@ -11,6 +11,7 @@ const Button = styled.button<ButtonProps>`
     font-weight: bold;
     border: 1px solid #c5c5c5;
     transition: all 0.3s;
+    min-width: 70px;
 
     color: ${(props) => props.variant === "secondary" && "#ededed"};
     background-color: ${(props) =>
