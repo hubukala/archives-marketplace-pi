@@ -14,4 +14,6 @@ export interface ProductType {
     color?: string;
     shipping_carrier?: string;
     shipping_price?: string;
+    iban?: string;
+    seller?: any;
 }
