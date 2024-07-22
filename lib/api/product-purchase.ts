@@ -3,9 +3,8 @@ import { useState } from "react";
 import getValidToken from "@/app/utils/get-valid-token";
 
 type ProductDataType = {
-    buyerId: string;
-    purchaseDate: string;
     productId: string;
+    purchaseDate: string;
 };
 
 const useProductPurchase = () => {
@@ -32,8 +31,8 @@ const useProductPurchase = () => {
             setLoading(false);
             return response.data;
         } catch (err) {
-            console.error("Upload failed:", err);
-            setError("Failed to upload product");
+            console.error("Purchase failed:", err);
+            setError("Failed to purchase the product");
             setLoading(false);
         }
     };

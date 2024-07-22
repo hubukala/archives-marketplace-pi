@@ -79,7 +79,10 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
             images,
             shippingCarrier,
             shippingPrice,
+            iban,
         } = await req.json();
+
+        const userRef = doc(db, "users", uid);
 
         await setDoc(doc(db, "products", uniqueId), {
             user_id: uid,
@@ -96,6 +99,8 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
             images,
             shipping_carrier: shippingCarrier,
             shipping_price: parseFloat(shippingPrice),
+            iban,
+            seller: userRef,
         });
 
         return NextResponse.json(
@@ -135,6 +140,7 @@ export async function PUT(req: NextApiRequest, res: NextApiResponse) {
             shippingCarrier,
             shippingPrice,
             id,
+            iban,
         } = await req.json();
 
         await setDoc(
@@ -154,6 +160,7 @@ export async function PUT(req: NextApiRequest, res: NextApiResponse) {
                 // images,
                 shipping_carrier: shippingCarrier,
                 shipping_price: parseFloat(shippingPrice),
+                iban,
             },
             {
                 merge: true,

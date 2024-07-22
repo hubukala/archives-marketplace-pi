@@ -43,6 +43,8 @@ export async function GET(req: NextRequest) {
                 color: doc.data().color,
                 shipping_carrier: doc.data().shipping_carrier,
                 shipping_price: doc.data().shipping_price,
+                iban: doc.data().iban,
+                seller: doc.data().seller,
             });
         });
         return NextResponse.json({ product });
@@ -77,6 +79,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
             price,
             shippingCarrier,
             shippingPrice,
+            iban,
         } = await req.json();
 
         await setDoc(
@@ -95,6 +98,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
                 price: parseFloat(price),
                 shipping_carrier: shippingCarrier,
                 shipping_price: parseFloat(shippingPrice),
+                iban,
             },
             {
                 merge: true,
