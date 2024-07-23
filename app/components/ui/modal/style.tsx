@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+type ModalContainerProps = {
+    height?: string;
+};
+
 const BackgroundContainer = styled.div`
     position: fixed;
     width: 100%;
@@ -13,7 +17,7 @@ const BackgroundContainer = styled.div`
     background-color: rgba(0, 0, 0, 0.75);
 `;
 
-const ModalContainer = styled.div`
+const ModalContainer = styled.div<ModalContainerProps>`
     background-color: #e8e8e8;
     border-radius: 15px;
     position: fixed;
@@ -21,7 +25,7 @@ const ModalContainer = styled.div`
     justify-content: center;
     align-items: center;
     width: 400px;
-    height: 480px;
+    height: ${({ height }) => (height ? height : "480px")};
     top: 50%;
     left: 50%;
     margin-top: -200px;

@@ -43,6 +43,18 @@ const ButtonSection = styled.div`
 
 const ButtonWrapper = styled.span``;
 
+const DeleteProductModalWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 15px;
+`;
+
+const DeleteModalButtonsWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
 export {
     ProductSection,
     GallerySection,
@@ -51,4 +63,6 @@ export {
     ProductPrice,
     ButtonSection,
     ButtonWrapper,
+    DeleteProductModalWrapper,
+    DeleteModalButtonsWrapper,
 };
