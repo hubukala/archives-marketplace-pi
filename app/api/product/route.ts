@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
     collection,
+    deleteDoc,
     doc,
     getDocs,
     query,
@@ -47,6 +48,14 @@ export async function GET(req: NextRequest) {
                 seller: doc.data().seller,
             });
         });
+
+        if (product?.length === 0) {
+            return NextResponse.json(
+                { error: "Failed to fetch products" },
+                { status: 500 }
+            );
+        }
+
         return NextResponse.json({ product });
     } catch (err) {
         return NextResponse.json(
@@ -113,6 +122,44 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
         console.log(err);
         return NextResponse.json(
             { error: "Error updating information:", err },
+            { status: 500 }
+        );
+    }
+}
+
+export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
+    const auth = getAuth();
+
+    try {
+        const token = req?.headers.get("authorization").split(" ")[1];
+        if (!token) {
+            return NextResponse.json(
+                { error: "Unauthorized:" },
+                { status: 401 }
+            );
+        }
+        const decodedToken = await auth.verifyIdToken(token);
+        const uid = decodedToken.uid;
+
+        const { productId } = await req.json();
+
+        if (!productId) {
+            return NextResponse.json(
+                { error: "Product ID is required:", err },
+                { status: 400 }
+            );
+        }
+
+        await deleteDoc(doc(db, "products", productId));
+
+        return NextResponse.json(
+            { status: 200 },
+            { statusText: "Product deleted successfully" }
+        );
+    } catch (err) {
+        console.log(err);
+        return NextResponse.json(
+            { error: "Error deleting product:", err },
             { status: 500 }
         );
     }
