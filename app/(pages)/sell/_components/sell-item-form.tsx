@@ -22,6 +22,9 @@ import useProductUpdate from "@/lib/api/product-update";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/lib/firebase/config";
 import { notify } from "@/app/components/ui/toast-notification/toast-notification";
+import Warning from "@/app/components/ui/warning/warning";
+import useAuth from "@/app/hooks/useAuth";
+import Loader from "@/app/components/ui/loader/loader";
 
 type SellFormPropsType = {
     type?: "edit" | "create";
@@ -35,6 +38,7 @@ const SellForm = ({
     isValuesLoading,
 }: SellFormPropsType) => {
     // const productsRef = collection(db, 'products');
+    const { user, loading: userLoading } = useAuth();
     const uniqueId = uuidv4();
     const { productAdd, loading, error } = useProductAdd();
     const {
@@ -42,6 +46,13 @@ const SellForm = ({
         loading: productUpdateLoading,
         error: productUpdateError,
     } = useProductUpdate();
+
+    const isUserDetailsFilled =
+        user?.fname &&
+        user?.lname &&
+        user?.street &&
+        user?.city &&
+        user?.zipcode;
     const [successMessage, setSuccessMessage] = useState(false);
 
     const [filesPreview, setFilesPreview] = useState([]);
@@ -77,6 +88,7 @@ const SellForm = ({
         price: productInitialValues?.price ?? "",
         shippingCarrier: productInitialValues?.shipping_carrier ?? "",
         shippingPrice: productInitialValues?.shipping_price ?? "",
+        iban: productInitialValues?.iban ?? "",
     };
 
     const validationSchema = Yup.object({
@@ -92,6 +104,12 @@ const SellForm = ({
             "Please select shipping carrier"
         ),
         shippingPrice: Yup.number().required("Shipping price is required"),
+        iban: Yup.string()
+            .required("Bank account number is required")
+            .min(
+                28,
+                "Bank account number should contain at least 28 characters"
+            ),
     });
 
     const onSubmit = async (values) => {
@@ -143,12 +161,26 @@ const SellForm = ({
         setImageUpload(imageUpload.filter((o, i) => index !== i));
     };
 
-    if (isValuesLoading) {
-        return <p>Loading...</p>;
+    if (isValuesLoading || userLoading) {
+        return (
+            <FormContainer>
+                <Loader />
+            </FormContainer>
+        );
     }
 
     return (
         <FormContainer>
+            {!isUserDetailsFilled && user && (
+                <Warning
+                    message="Your account details are not provided yet and you will not be
+                    able to post any items for sale. Go to 'ACCOUNT' tab
+                    to provide address, first and last names"
+                />
+            )}
+            {!user && (
+                <Warning message="Create account or sign in to post items for sale" />
+            )}
             <h1>Add a new listing</h1>
             <Formik
                 initialValues={initialValues}
@@ -165,13 +197,14 @@ const SellForm = ({
                                 name="category"
                                 placeholder="Category"
                                 as="select"
+                                disabled={!isUserDetailsFilled}
                             >
                                 <option selected value="" disabled hidden>
                                     Select category
                                 </option>
                                 <option value="tops">TOPS</option>
                                 <option value="bottoms">BOTTOMS</option>
-                                <option value="sneakers">SNEAKERS</option>
+                                <option value="footwear">SNEAKERS</option>
                                 <option value="accessories">ACCESSORIES</option>
                             </Field>
                             <InputError name="category" component="div" />
@@ -179,18 +212,21 @@ const SellForm = ({
                                 type="text"
                                 name="designer"
                                 placeholder="Designer"
+                                disabled={!isUserDetailsFilled}
                             />
                             <InputError name="designer" component="div" />
                             <Input
                                 type="text"
                                 name="size"
                                 placeholder="Size on tag"
+                                disabled={!isUserDetailsFilled}
                             />
                             <InputError name="size" component="div" />
                             <Input
                                 type="text"
                                 name="itemTitle"
                                 placeholder="Item title"
+                                disabled={!isUserDetailsFilled}
                             />
                             <InputError name="itemTitle" component="div" />
                         </InputsSection>
@@ -200,6 +236,7 @@ const SellForm = ({
                                 type="text"
                                 name="color"
                                 placeholder="Exmaple: 'Light Grey'"
+                                disabled={!isUserDetailsFilled}
                             />
                             <InputError name="color" component="div" />
                         </InputsSection>
@@ -211,6 +248,7 @@ const SellForm = ({
                                 name="condition"
                                 id="condition"
                                 as="select"
+                                disabled={!isUserDetailsFilled}
                             >
                                 <option value="" disabled hidden selected>
                                     Select condition
@@ -231,6 +269,7 @@ const SellForm = ({
                                 name="description"
                                 placeholder="Details about condition, garment fit and other informations that might be important for the buyer."
                                 as="textarea"
+                                disabled={!isUserDetailsFilled}
                             />
                             <InputError name="description" component="div" />
                         </InputsSection>
@@ -240,6 +279,7 @@ const SellForm = ({
                                 type="text"
                                 name="price"
                                 placeholder="Price (USD)"
+                                disabled={!isUserDetailsFilled}
                             />
                             <InputError name="price" component="div" />
                         </InputsSection>
@@ -251,6 +291,7 @@ const SellForm = ({
                                 className="formik-field"
                                 id="shipping"
                                 as="select"
+                                disabled={!isUserDetailsFilled}
                             >
                                 <option value="" disabled selected hidden>
                                     Choose carrier
@@ -268,10 +309,21 @@ const SellForm = ({
                                 type="text"
                                 name="shippingPrice"
                                 placeholder="Shipping cost (USD)"
+                                disabled={!isUserDetailsFilled}
                             />
                             <InputError name="shippingPrice" component="div" />
                         </InputsSection>
-                        <h3>UPLOAD IMAGES</h3>
+                        <InputsSection>
+                            <h3>PAYMENT</h3>
+                            <Input
+                                type="text"
+                                name="iban"
+                                placeholder="Provide your bank account number (IBAN)"
+                                disabled={!isUserDetailsFilled}
+                            />
+                            <InputError name="iban" component="div" />
+                        </InputsSection>
+                        {isUserDetailsFilled && <h3>UPLOAD IMAGES</h3>}
                         {filesPreview.length > 0 ? (
                             <FilesPreviewWrapper>
                                 {filesPreview.map((el, index) => {
@@ -296,24 +348,29 @@ const SellForm = ({
                                 })}
                             </FilesPreviewWrapper>
                         ) : null}
-                        <FileUploadButton>
-                            <FileUploadInput
-                                type="file"
-                                id="file"
-                                name="images"
-                                multiple
-                                onChange={(event) => {
-                                    handleOnChange(event);
-                                }}
-                            />
-                            SELECT IMAGES
-                        </FileUploadButton>
-                        <InputError name="images" component="div" />
+                        {isUserDetailsFilled && (
+                            <>
+                                <FileUploadButton>
+                                    <FileUploadInput
+                                        type="file"
+                                        id="file"
+                                        name="images"
+                                        multiple
+                                        onChange={(event) => {
+                                            handleOnChange(event);
+                                        }}
+                                    />
+                                    SELECT IMAGES
+                                </FileUploadButton>
+                                <InputError name="images" component="div" />
+                            </>
+                        )}
                         <br />
                         <Button
                             variant="primary"
                             label={"POST ITEM"}
                             type="submit"
+                            disabled={!isUserDetailsFilled}
                             // onClick={formik.handleSubmit}
                         />
                         <button onClick={resetForm}>reset form</button>
