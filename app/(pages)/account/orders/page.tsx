@@ -1,6 +1,9 @@
 "use client";
 import { useUserOrders } from "@/lib/api/user-orders";
-import { ProductsContainer } from "../../shop/_components/style";
+import {
+    LoadingWrapper,
+    ProductsContainer,
+} from "../../shop/_components/style";
 import ProductsList from "@/app/components/ui/products-list/products-list";
 import { ProductType } from "@/types/Product";
 import Loader from "@/app/components/ui/loader/loader";
@@ -11,7 +14,9 @@ export default function Orders() {
     return (
         <ProductsContainer>
             {isLoading ? (
-                <Loader />
+                <LoadingWrapper>
+                    <Loader />
+                </LoadingWrapper>
             ) : (
                 <ProductsList
                     arr={listings as ProductType[]}
