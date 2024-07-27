@@ -39,13 +39,17 @@ export async function GET(req: NextRequest) {
                 size: doc.data().size,
                 title: doc.data().title,
                 buyer_id: doc.data().buyer_id,
+                buyer_email: doc.data().buyer_email,
                 user_id: doc.data().user_id,
+                seller_email: doc.data().seller_email,
                 available: doc.data().available,
                 color: doc.data().color,
                 shipping_carrier: doc.data().shipping_carrier,
                 shipping_price: doc.data().shipping_price,
                 iban: doc.data().iban,
                 seller: doc.data().seller,
+                tracking_number: doc.data().tracking_number,
+                paid: doc.data().paid,
             });
         });
 

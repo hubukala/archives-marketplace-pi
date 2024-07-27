@@ -39,6 +39,7 @@ export async function GET(req: NextRequest) {
                 size: doc.data().size,
                 title: doc.data().title,
                 user_id: doc.data().user_id,
+                seller_email: doc.data().seller_email,
                 available: doc.data().available,
                 color: doc.data().color,
                 shipping_carrier: doc.data().shipping_carrier,
@@ -80,12 +81,14 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
             shippingCarrier,
             shippingPrice,
             iban,
+            sellerEmail,
         } = await req.json();
 
         const userRef = doc(db, "users", uid);
 
         await setDoc(doc(db, "products", uniqueId), {
             user_id: uid,
+            seller_email: sellerEmail,
             product_id: uniqueId,
             available: true,
             title: itemTitle.toLocaleUpperCase(),
@@ -141,31 +144,58 @@ export async function PUT(req: NextApiRequest, res: NextApiResponse) {
             shippingPrice,
             id,
             iban,
+            trackingNumber,
+            paid,
         } = await req.json();
 
-        await setDoc(
-            doc(db, "products", id),
-            {
-                user_id: uid,
-                product_id: id,
-                available: true,
-                title: itemTitle.toLocaleUpperCase(),
-                description,
-                size,
-                color,
-                designer,
-                category,
-                condition,
-                price: parseFloat(price),
-                // images,
-                shipping_carrier: shippingCarrier,
-                shipping_price: parseFloat(shippingPrice),
-                iban,
-            },
-            {
-                merge: true,
-            }
-        );
+        if (trackingNumber) {
+            await setDoc(
+                doc(db, "products", id),
+                {
+                    user_id: uid,
+                    product_id: id,
+                    tracking_number: trackingNumber,
+                },
+                {
+                    merge: true,
+                }
+            );
+        } else if (paid) {
+            await setDoc(
+                doc(db, "products", id),
+                {
+                    product_id: id,
+                    paid,
+                },
+                {
+                    merge: true,
+                }
+            );
+        } else {
+            await setDoc(
+                doc(db, "products", id),
+                {
+                    user_id: uid,
+                    product_id: id,
+                    available: true,
+                    title: itemTitle.toLocaleUpperCase(),
+                    description,
+                    size,
+                    color,
+                    designer,
+                    category,
+                    condition,
+                    price: parseFloat(price),
+                    // images,
+                    shipping_carrier: shippingCarrier,
+                    shipping_price: parseFloat(shippingPrice),
+                    iban,
+                },
+                {
+                    merge: true,
+                }
+            );
+        }
 
         return NextResponse.json(
             { message: "Product uploaded successfully" },

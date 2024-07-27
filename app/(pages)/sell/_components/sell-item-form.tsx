@@ -135,6 +135,7 @@ const SellForm = ({
             const payload = {
                 ...values,
                 images: imageUrls,
+                sellerEmail: user?.email,
             };
 
             const result = await productAdd(payload);
