@@ -55,6 +55,20 @@ const DeleteModalButtonsWrapper = styled.div`
     justify-content: center;
 `;
 
+const TrackingNumberModalWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 350px;
+`;
+
+const TrackingNumberButtonsWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+`;
+
 export {
     ProductSection,
     GallerySection,
@@ -65,4 +79,6 @@ export {
     ButtonWrapper,
     DeleteProductModalWrapper,
     DeleteModalButtonsWrapper,
+    TrackingNumberModalWrapper,
+    TrackingNumberButtonsWrapper,
 };
