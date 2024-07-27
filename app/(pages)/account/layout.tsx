@@ -10,6 +10,8 @@ import {
 } from "./_components/style";
 import SideBar from "@/app/components/layout/sidebar/sidebar";
 import { useRouter } from "next/navigation";
+import useAuth from "@/app/hooks/useAuth";
+import Loader from "@/app/components/ui/loader/loader";
 
 export default function Account({
     children,
@@ -18,6 +20,7 @@ export default function Account({
 }>) {
     const router = useRouter();
     const [category, setCategory] = useState("/account");
+    const { user, loading } = useAuth();
 
     useEffect(() => {
         router.push(category);
@@ -42,6 +45,14 @@ export default function Account({
         },
     ];
 
+    if (loading) {
+        return (
+            <AccountWrapper>
+                <Loader />
+            </AccountWrapper>
+        );
+    }
+
     return (
         <AccountWrapper>
             <AccountInfoWrapper>
@@ -60,7 +71,7 @@ export default function Account({
                     // onClick={handleAvatarClick}
                 />{" "}
                 <br />
-                email adress <br />
+                {user?.email} <br />
                 Joined in: account created date
             </AccountInfoWrapper>
             <ContentWrapper>
