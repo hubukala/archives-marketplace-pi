@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface ButtonProps {
-    variant?: "primary" | "secondary";
+    variant?: "primary" | "secondary" | "alternative";
     type?: "button" | "reset" | "submit" | undefined;
 }
 
@@ -13,9 +13,27 @@ const Button = styled.button<ButtonProps>`
     transition: all 0.3s;
     min-width: 70px;
 
-    color: ${(props) => props.variant === "secondary" && "#ededed"};
-    background-color: ${(props) =>
-        props.variant === "secondary" ? "#212121" : "white"};
+    border-radius: ${(props) => props.variant === "alternative" && "5px"};
+    border: ${(props) =>
+        props.variant === "alternative"
+            ? "1px solid #e32226"
+            : "1px solid #c5c5c5"};
+    color: ${(props) => {
+        if (props.variant === "secondary") {
+            return "#ededed";
+        } else if (props.variant === "alternative") {
+            return "#263d8b";
+        }
+    }};
+    background-color: ${(props) => {
+        if (props.variant === "primary") {
+            return "white";
+        } else if (props.variant === "secondary") {
+            return "#212121";
+        } else if (props.variant === "alternative") {
+            return "#e32226";
+        }
+    }};
 
     &:hover {
         border: 1px solid blue;

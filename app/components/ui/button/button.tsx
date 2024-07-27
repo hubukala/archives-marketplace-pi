@@ -3,7 +3,7 @@ import Loader from "../loader/loader";
 import * as S from "./style";
 
 export interface ButtonProps {
-    variant: "primary" | "secondary";
+    variant: "primary" | "secondary" | "alternative";
     label: String;
     type?: "button" | "reset" | "submit" | undefined;
     disabled?: boolean;
