@@ -31,10 +31,6 @@ export default function Account({
             label: "account",
             category: "/account",
         },
-        // {
-        //     label: "messages",
-        //     category: "/account/messages",
-        // },
         {
             label: "orders",
             category: "/account/orders",
@@ -42,6 +38,10 @@ export default function Account({
         {
             label: "my items",
             category: "/account/posted-items",
+        },
+        {
+            label: "sold",
+            category: "/account/sold",
         },
     ];
 
@@ -71,8 +71,9 @@ export default function Account({
                     // onClick={handleAvatarClick}
                 />{" "}
                 <br />
+                {user?.fname} {user?.lname}
+                <br />
                 {user?.email} <br />
-                Joined in: account created date
             </AccountInfoWrapper>
             <ContentWrapper>
                 {/* sidebar */}

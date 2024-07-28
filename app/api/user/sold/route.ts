@@ -35,7 +35,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
         const q = query(
             collection(db, "products"),
             where("user_id", "==", uid),
-            where("available", "==", true)
+            where("available", "==", false)
         );
 
         const querySnapshot = await getDocs(q);
@@ -54,7 +54,6 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
             });
         });
 
-        // return NextResponse.json({ message: "test" });
         return NextResponse.json({ products });
     } catch (err) {
         console.log(err);
