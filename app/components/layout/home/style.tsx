@@ -63,10 +63,18 @@ const BannerTwo = styled.div`
     }
 `;
 
+const BannersContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+`;
+
 export {
     HomeSection,
     ImageFullScreen,
     RecentlyPostedWrapper,
     BannerOne,
     BannerTwo,
+    BannersContainer,
 };
