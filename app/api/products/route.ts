@@ -16,15 +16,27 @@ import { v4 as uuidv4 } from "uuid";
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const category = searchParams.get("category");
+    const searchPhrase = searchParams.get("searchPhrase");
+    let q = query(collection(db, "products"), where("available", "==", true));
 
     try {
-        const q = category
-            ? query(
-                  collection(db, "products"),
-                  where("available", "==", true),
-                  where("category", "==", category)
-              )
-            : query(collection(db, "products"), where("available", "==", true));
+        if (category) {
+            q = query(
+                collection(db, "products"),
+                where("available", "==", true),
+                where("category", "==", category.toLocaleUpperCase())
+            );
+        } else if (searchPhrase) {
+            q = query(
+                collection(db, "products"),
+                where("designer", ">=", `${searchPhrase.toLocaleUpperCase()}`),
+                where(
+                    "designer",
+                    "<",
+                    `${searchPhrase.toLocaleUpperCase()}\uf8ff'`
+                )
+            );
+        }
         const querySnapshot = await getDocs(q);
         const products: ProductType[] = [];
         querySnapshot.forEach((doc) => {
@@ -95,12 +107,12 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
             description,
             size,
             color,
-            designer,
-            category,
-            condition,
+            designer: designer.toLocaleUpperCase(),
+            category: category.toLocaleUpperCase(),
+            condition: condition.toLocaleUpperCase(),
             price: parseFloat(price),
             images,
-            shipping_carrier: shippingCarrier,
+            shipping_carrier: shippingCarrier.toLocaleUpperCase(),
             shipping_price: parseFloat(shippingPrice),
             iban,
             seller: userRef,
