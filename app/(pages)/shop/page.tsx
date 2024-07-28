@@ -8,7 +8,7 @@ import { useState } from "react";
 import Loader from "@/app/components/ui/loader/loader";
 import { LoadingWrapper } from "./_components/style";
 
-const All: React.FC = () => {
+export default function Shop() {
     const [category, setCategory] = useState(undefined);
     const { products, isLoading, isError } = useProducts(category);
 
@@ -26,7 +26,7 @@ const All: React.FC = () => {
             category: "bottoms",
         },
         {
-            label: "sneakers",
+            label: "footwear",
             category: "footwear",
         },
         {
@@ -37,7 +37,11 @@ const All: React.FC = () => {
 
     return (
         <ShopWrapper>
-            <SideBar sideBarItems={SIDEBAR_ITEMS} setCategory={setCategory} />
+            <SideBar
+                sideBarItems={SIDEBAR_ITEMS}
+                category={category}
+                setCategory={setCategory}
+            />
             <ProductsContainer>
                 {isLoading ? (
                     <LoadingWrapper>
@@ -53,6 +57,4 @@ const All: React.FC = () => {
             </ProductsContainer>
         </ShopWrapper>
     );
-};
-
-export default All;
+}
