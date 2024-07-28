@@ -7,9 +7,15 @@ const fetcher = async (url: string) => {
     return response.data.products;
 };
 
-const useProducts = (category?: string) => {
-    const queryString = category ? `?category=${category}` : "";
-    const { data, error } = useSWR(`/api/products${queryString}`, fetcher);
+const useProducts = (category?: string, searchPhrase?: string) => {
+    const queryCategory = category ? `?category=${category}` : "";
+    const querySearchPhrase = searchPhrase
+        ? `?searchPhrase=${searchPhrase}`
+        : "";
+    const { data, error } = useSWR(
+        `/api/products${queryCategory}${querySearchPhrase}`,
+        fetcher
+    );
 
     return {
         products: data as ProductType[] | undefined,
