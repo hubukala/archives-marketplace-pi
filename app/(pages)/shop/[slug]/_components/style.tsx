@@ -23,7 +23,7 @@ const GallerySection = styled.div`
 
 const ProductDescription = styled.div``;
 
-const ProductDetails = styled.p`
+const ProductDetail = styled.p`
     font-size: 12px;
 `;
 
@@ -73,7 +73,7 @@ export {
     ProductSection,
     GallerySection,
     ProductDescription,
-    ProductDetails,
+    ProductDetail,
     ProductPrice,
     ButtonSection,
     ButtonWrapper,

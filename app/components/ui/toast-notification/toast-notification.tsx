@@ -10,7 +10,7 @@ export const notify = ({ type, message }: NotifyProps) => {
     switch (type) {
         case "error":
             toast.error(message, {
-                position: "top-left",
+                position: "top-center",
             });
             break;
         case "success":

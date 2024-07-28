@@ -23,10 +23,6 @@ const NavBar = ({ setLoginModalOpen, setRegisterModalOpen }: NavBarProps) => {
     const { user, loading } = useAuth();
     const router = useRouter();
 
-    useEffect(() => {
-        console.log("user changed");
-    }, [user]);
-
     const handleOpenModal = (modalType: ModalTypes) => {
         if (modalType === "login") {
             setRegisterModalOpen(false);

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styled from "styled-components";
+import { Form } from "formik";
 
 const AccountWrapper = styled.div`
     margin: 2rem;
@@ -64,6 +65,12 @@ const AccountInputLabel = styled.label`
     margin-bottom: 5px;
 `;
 
+const AccountDetailsFormWrapper = styled(Form)`
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+`;
+
 export {
     AccountWrapper,
     AccountInfoWrapper,
@@ -75,4 +82,5 @@ export {
     AccountInfoRow,
     AccountInfoInputWrapper,
     AccountInputLabel,
+    AccountDetailsFormWrapper,
 };
