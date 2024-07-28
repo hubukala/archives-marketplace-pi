@@ -43,6 +43,10 @@ const LoginForm = ({ setLoginModalOpen }: LoginFormProps) => {
             notify({ type: "success", message: "Signed in successfully" });
             setLoginModalOpen(false);
         } catch (err) {
+            notify({
+                type: "error",
+                message: "Please provide correct username and password",
+            });
             if (axios.isAxiosError(err) && err.response) {
                 setStatus({ error: err.response.data.error });
             } else {
