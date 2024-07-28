@@ -1,17 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
-import { TextArea } from "@/app/components/ui/text-area/style";
 import { Input } from "@/app/components/ui/input/style";
 import { AccountInputLabel } from "./style";
 import {
     AccountInfoForm,
     AccountInfoRow,
     AccountInfoInputWrapper,
+    AccountDetailsFormWrapper,
 } from "./style";
 import Button from "@/app/components/ui/button/button";
 import { useUserDetails } from "@/lib/api/user-details";
 import useAuth from "@/app/hooks/useAuth";
-import { Field, Form, Formik } from "formik";
+import { Field, Formik } from "formik";
 import Loader from "@/app/components/ui/loader/loader";
 
 const AccountDetailsForm = () => {
@@ -46,11 +46,11 @@ const AccountDetailsForm = () => {
         }
     }, [userDetails]);
 
-    const handleInputs = (e) => {
+    const handleInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleUpdate = async (e) => {
+    const handleUpdate = async (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         try {
             await updater("/api/user/details", formData);
@@ -73,7 +73,7 @@ const AccountDetailsForm = () => {
     return (
         <AccountInfoForm>
             <Formik initialValues={formData} onSubmit={handleInputs}>
-                <Form>
+                <AccountDetailsFormWrapper>
                     <AccountInfoRow>
                         <AccountInfoInputWrapper>
                             <AccountInputLabel>First name</AccountInputLabel>
@@ -150,11 +150,13 @@ const AccountDetailsForm = () => {
                     <div>
                         <Button
                             variant="primary"
-                            onClick={(e) => handleUpdate(e)}
+                            onClick={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                handleUpdate(e)
+                            }
                             label="SAVE"
                         />
                     </div>
-                </Form>
+                </AccountDetailsFormWrapper>
             </Formik>
         </AccountInfoForm>
     );
