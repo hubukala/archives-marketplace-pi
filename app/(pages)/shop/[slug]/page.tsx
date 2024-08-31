@@ -28,8 +28,11 @@ import { Input } from "@/app/components/ui/input/style";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import useProductUpdate from "@/lib/api/product-update";
+import useAuth from "@/app/hooks/useAuth";
 
 export default function ProductDetails() {
+    const { user, loading: userLoading } = useAuth();
+
     const {
         productDelete,
         loading: loadingDeleteProduct,
@@ -61,15 +64,36 @@ export default function ProductDetails() {
             purchaseDate: getTodaysDate(),
         };
 
-        const result = await productPurchase(payload);
-        if (result) {
-            notify({
-                type: "success",
-                message: "Purchase completed!",
-            });
-            console.log("Purchase completed");
+        const isUserDetailsFilled =
+            user?.fname &&
+            user?.lname &&
+            user?.street &&
+            user?.city &&
+            user?.zipcode;
+
+        if (isUserDetailsFilled) {
+            const result = await productPurchase(payload);
+            if (result) {
+                notify({
+                    type: "success",
+                    message: "Purchase completed!",
+                });
+                console.log("Purchase completed");
+                router.push("/account");
+            } else {
+                notify({
+                    type: "error",
+                    message:
+                        "Please fill your account details before making a purchase",
+                });
+                console.log("Failed to purchase an item");
+            }
         } else {
-            console.log("Failed to purchase an item");
+            notify({
+                type: "error",
+                message:
+                    "You account details are not provided, please go to you account tab and fill your personal informations",
+            });
         }
     };
 

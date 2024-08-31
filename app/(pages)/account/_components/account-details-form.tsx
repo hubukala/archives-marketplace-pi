@@ -62,7 +62,7 @@ const AccountDetailsForm = () => {
         }
     };
 
-    if (loading) {
+    if (loading || isLoading || !userDetails) {
         return (
             <AccountInfoForm>
                 <Loader />
