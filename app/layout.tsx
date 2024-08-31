@@ -19,14 +19,39 @@ export default function RootLayout({
 
     return (
         <html lang="en">
-            <body>
+            <body
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100vh",
+                }}
+            >
                 <StyledComponentsRegistry>
                     <ToastNotification />
                     <NavBar
                         setLoginModalOpen={setLoginModalOpen}
                         setRegisterModalOpen={setRegisterModalOpen}
                     />
-                    <main>{children}</main>
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                            height: "100%",
+                        }}
+                    >
+                        <main style={{ marginBottom: "50px" }}>{children}</main>
+                        <footer
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                borderTop: "1px solid black",
+                                padding: "20px",
+                            }}
+                        >
+                            <div>&#169;2024 archives marketplace</div>
+                        </footer>
+                    </div>
                     <Modal open={loginModalOpen}>
                         <LoginForm setLoginModalOpen={setLoginModalOpen} />
                     </Modal>
