@@ -9,6 +9,7 @@ const useAuth = () => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            setLoading(true);
             if (user) {
                 try {
                     const token = await user.getIdToken();
