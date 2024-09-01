@@ -4,20 +4,9 @@ import { db } from "@/lib/firebase/config"; // Adjust the import path according 
 import { getAuth } from "firebase-admin/auth";
 import { customInitApp } from "@/lib/firebase/admin";
 import { NextRequest, NextResponse } from "next/server";
+import { ProductType } from "@/types/Product";
 
 customInitApp();
-
-type ProductType = {
-    category: string;
-    condition: string;
-    description: string;
-    designer: string;
-    images: string;
-    price: number;
-    id: string;
-    size: string;
-    title: string;
-};
 
 export async function GET(req: NextRequest, res: NextApiResponse) {
     if (req.method !== "GET") {

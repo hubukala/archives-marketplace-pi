@@ -29,7 +29,7 @@ import { ProductType } from "@/types/Product";
 
 type SellFormPropsType = {
     type?: "edit" | "create";
-    productInitialValues?: any;
+    productInitialValues?: ProductType;
     isValuesLoading?: boolean;
 };
 
@@ -38,7 +38,6 @@ const SellForm = ({
     productInitialValues,
     isValuesLoading,
 }: SellFormPropsType) => {
-    // const productsRef = collection(db, 'products');
     const { user, loading: userLoading } = useAuth();
     const uniqueId = uuidv4();
     const { productAdd, loading, error } = useProductAdd();
@@ -115,7 +114,7 @@ const SellForm = ({
         if (type === "edit") {
             const payload = {
                 ...values,
-                id: productInitialValues.id,
+                id: productInitialValues?.id,
             };
 
             const result = await productUpdate(payload);
@@ -371,7 +370,6 @@ const SellForm = ({
                             label={"POST ITEM"}
                             type="submit"
                             disabled={!isUserDetailsFilled}
-                            // onClick={formik.handleSubmit}
                         />
                     </Form>
                 )}

@@ -9,7 +9,7 @@ const ProductCard = (props: any) => {
     };
     return (
         <ProductCardWrapper onClick={() => OpenProductPage(props.id)}>
-            <Thumbnail src={props.image} alt="image" width={200} height={200}/>
+            <Thumbnail src={props.image} alt="image" width={200} height={200} />
             <br />
             {props.title}
             <br />

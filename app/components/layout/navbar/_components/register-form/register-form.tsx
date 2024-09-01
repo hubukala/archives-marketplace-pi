@@ -3,7 +3,7 @@ import Button from "@/app/components/ui/button/button";
 import { Description, RegisterFormWrapper, RegisterInput } from "./style";
 import axios from "axios";
 import * as Yup from "yup";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import { InputError } from "@/app/components/ui/input/style";
 
 interface FormValues {
@@ -30,7 +30,7 @@ const RegisterForm = ({ setRegisterModalOpen }: RegisterFormProps) => {
 
     const onSubmit = async (
         values: FormValues,
-        { setSubmitting, setStatus }: any
+        { setSubmitting, setStatus }: FormikHelpers<FormValues>
     ) => {
         try {
             const response = await axios.post("api/auth/register", values);

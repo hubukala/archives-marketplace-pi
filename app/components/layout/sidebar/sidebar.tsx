@@ -3,7 +3,7 @@ import { SideBarWrapper, SideBarButton } from "./style";
 
 type SideBarProps = {
     sideBarItems: Array<Record<string, string | undefined>>;
-    setCategory: any;
+    setCategory: React.Dispatch<React.SetStateAction<string | undefined>>;
     category?: string | undefined;
 };
 

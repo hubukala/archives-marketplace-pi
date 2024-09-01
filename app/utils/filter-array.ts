@@ -1,12 +1,14 @@
-type FilterArrayProps = {
-    cat: String
-    arr: Array<any>
-}
+import { ProductType } from "@/types/Product";
 
-function FilterArray({cat, arr}: FilterArrayProps) {
-    if (cat === 'All') {
+type FilterArrayProps = {
+    cat: String;
+    arr: Array<ProductType>;
+};
+
+function FilterArray({ cat, arr }: FilterArrayProps) {
+    if (cat === "All") {
         return arr;
-    } else if (cat !== 'All') {
+    } else if (cat !== "All") {
         const newArray = arr.filter((e) => e.category === cat);
         return newArray;
     }

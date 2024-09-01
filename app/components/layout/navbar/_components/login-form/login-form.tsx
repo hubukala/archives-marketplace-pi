@@ -2,7 +2,7 @@ import Button from "@/app/components/ui/button/button";
 import { Description, LoginFormWrapper, LoginInput } from "./style";
 import * as Yup from "yup";
 import axios from "axios";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import { InputError } from "@/app/components/ui/input/style";
 import { signIn } from "@/lib/firebase/auth";
 import { notify } from "@/app/components/ui/toast-notification/toast-notification";
@@ -31,7 +31,7 @@ const LoginForm = ({ setLoginModalOpen }: LoginFormProps) => {
 
     const onSubmit = async (
         values: FormValues,
-        { setSubmitting, setStatus }: any
+        { setSubmitting, setStatus }: FormikHelpers<FormValues>
     ) => {
         try {
             const response = await axios.post("/api/auth/login", values);
