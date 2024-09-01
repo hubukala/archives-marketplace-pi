@@ -129,13 +129,13 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
 
         await Promise.all([
             sendEmail({
-                to: buyerData.email,
+                to: buyerData.email as string,
                 subject: buyerSubject,
                 text: buyerText,
                 html: buyerHtml,
             }),
             sendEmail({
-                to: sellerData.email,
+                to: sellerData.email as string,
                 subject: sellerSubject,
                 text: sellerText,
                 html: sellerHtml,
