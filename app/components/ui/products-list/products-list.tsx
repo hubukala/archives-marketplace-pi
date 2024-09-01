@@ -15,7 +15,7 @@ const ProductsList = ({ arr, message }: ProductsListProps) => {
                 arr?.map((item: ProductType) => (
                     <ProductCard
                         key={item?.id}
-                        image={item?.image}
+                        image={item?.images}
                         title={item?.title}
                         size={item?.size}
                         price={item?.price}
