@@ -4,7 +4,6 @@ import { getAuth } from "firebase-admin/auth";
 import { db } from "@/lib/firebase/config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
-import { auth as auth2 } from "@/lib/firebase/config";
 
 customInitApp();
 

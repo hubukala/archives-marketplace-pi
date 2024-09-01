@@ -1,4 +1,6 @@
 import { ReactImageGalleryItem } from "react-image-gallery";
+import { DocumentReference } from "firebase/firestore";
+import { UserType } from "./User";
 
 export interface ProductType {
     id?: string;
@@ -19,7 +21,7 @@ export interface ProductType {
     shipping_carrier?: string;
     shipping_price?: string;
     iban?: string;
-    seller?: any;
+    seller?: DocumentReference<UserType>;
     tracking_number?: string;
     paid?: boolean;
 }

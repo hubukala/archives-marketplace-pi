@@ -28,8 +28,7 @@ const AccountDetailsForm = () => {
         suite: "",
     });
 
-    const { userDetails, isLoading, isError, mutate, updater } =
-        useUserDetails();
+    const { userDetails, isLoading, updater } = useUserDetails();
 
     useEffect(() => {
         if (userDetails) {

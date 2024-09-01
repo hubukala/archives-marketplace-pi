@@ -23,7 +23,7 @@ export default function Account({
     children: React.ReactNode;
 }>) {
     const router = useRouter();
-    const [category, setCategory] = useState("/account");
+    const [category, setCategory] = useState<string | undefined>("/account");
     const { user, loading } = useAuth();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const uniqueId = uuidv4();
@@ -32,7 +32,7 @@ export default function Account({
         useUserDetails();
 
     useEffect(() => {
-        router.push(category);
+        router.push(category as string);
     }, [category, router]);
 
     const SIDEBAR_ITEMS = [

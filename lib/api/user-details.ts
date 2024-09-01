@@ -2,6 +2,7 @@ import axios from "axios";
 import { auth } from "@/lib/firebase/config";
 import useSWR, { mutate } from "swr";
 import getValidToken from "@/app/utils/get-valid-token";
+import { UserType } from "@/types/User";
 
 const fetcher = async (url: string) => {
     const currentUser = auth.currentUser;
@@ -18,7 +19,7 @@ const fetcher = async (url: string) => {
     return response.data;
 };
 
-const updater = async (url: string, data: any) => {
+const updater = async (url: string, data: UserType) => {
     const currentUser = auth.currentUser;
     if (!currentUser) {
         throw new Error("User not authenticated");
