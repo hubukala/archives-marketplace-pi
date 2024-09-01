@@ -9,7 +9,7 @@ import Loader from "@/app/components/ui/loader/loader";
 import { LoadingWrapper } from "./_components/style";
 
 export default function Shop() {
-    const [category, setCategory] = useState(undefined);
+    const [category, setCategory] = useState<string | undefined>(undefined);
     const { products, isLoading, isError } = useProducts(category);
 
     const SIDEBAR_ITEMS = [
