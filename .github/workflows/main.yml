@@ -35,6 +35,12 @@ jobs:
             - name: Lint codebase
               run: npm run lint # Run linting to ensure code quality
 
+            - name: Set Environment Variables
+              run: |
+                  echo "NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}" >> $GITHUB_ENV
+                  echo "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}" >> $GITHUB_ENV
+                  # Add other environment variables as needed
+
             - name: Build Next.js app
               run: npm run build
 
