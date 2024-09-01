@@ -1,10 +1,9 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase/config"; // Adjust the import path according to your project structure
 import { getAuth } from "firebase-admin/auth";
-import { initializeApp, applicationDefault } from "firebase-admin/app";
 import { customInitApp } from "@/lib/firebase/admin";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 customInitApp();
 
@@ -13,14 +12,14 @@ type ProductType = {
     condition: string;
     description: string;
     designer: string;
-    image: string;
+    images: string;
     price: number;
     id: string;
     size: string;
     title: string;
 };
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextApiResponse) {
     if (req.method !== "GET") {
         return res.status(405).json({ error: "Method not allowed" });
     }
@@ -28,7 +27,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     const auth = getAuth();
 
     try {
-        const token = req?.headers.get("authorization").split(" ")[1];
+        const token = req?.headers.get("authorization")?.split(" ")[1];
         if (!token) {
             return res.status(401).json({ error: "Unauthorized" });
         }
@@ -49,7 +48,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
                 condition: doc.data().condition,
                 description: doc.data().description,
                 designer: doc.data().designer,
-                image: doc.data().images[0],
+                images: doc.data().images[0],
                 price: doc.data().price,
                 id: doc.data().product_id,
                 size: doc.data().size,
@@ -57,7 +56,6 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
             });
         });
 
-        // return NextResponse.json({ message: "test" });
         return NextResponse.json({ products });
     } catch (err) {
         console.log(err);

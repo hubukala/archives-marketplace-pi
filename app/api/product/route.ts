@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import { ProductType } from "@/types/Product";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import { getAuth } from "firebase-admin/auth";
 
 export async function GET(req: NextRequest) {
@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
                 condition: doc.data().condition,
                 description: doc.data().description,
                 designer: doc.data().designer,
-                image: doc.data().images.map((item: string) => ({
+                images: doc.data().images.map((item: string) => ({
                     original: item,
                     thumbnail: item,
                 })),
@@ -69,11 +69,11 @@ export async function GET(req: NextRequest) {
     }
 }
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextApiResponse) {
     const auth = getAuth();
 
     try {
-        const token = req?.headers.get("authorization").split(" ")[1];
+        const token = req?.headers.get("authorization")?.split(" ")[1];
         if (!token) {
             return res.status(401).json({ error: "Unauthorized" });
         }
@@ -131,11 +131,11 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     }
 }
 
-export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
+export async function DELETE(req: NextRequest, res: NextApiResponse) {
     const auth = getAuth();
 
     try {
-        const token = req?.headers.get("authorization").split(" ")[1];
+        const token = req?.headers.get("authorization")?.split(" ")[1];
         if (!token) {
             return NextResponse.json(
                 { error: "Unauthorized:" },
@@ -149,7 +149,7 @@ export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
 
         if (!productId) {
             return NextResponse.json(
-                { error: "Product ID is required:", err },
+                { error: "Product ID is required." },
                 { status: 400 }
             );
         }

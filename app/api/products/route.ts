@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import { ProductType } from "@/types/Product";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import { getAuth } from "firebase-admin/auth";
 import { v4 as uuidv4 } from "uuid";
 
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
                 condition: doc.data().condition,
                 description: doc.data().description,
                 designer: doc.data().designer,
-                image: doc.data().images[0],
+                images: doc.data().images[0],
                 price: doc.data().price,
                 id: doc.data().product_id,
                 size: doc.data().size,
@@ -67,9 +67,9 @@ export async function GET(req: NextRequest) {
     }
 }
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextApiResponse) {
     const auth = getAuth();
-    const token = req?.headers.get("authorization").split(" ")[1];
+    const token = req?.headers.get("authorization")?.split(" ")[1];
     if (!token) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -131,9 +131,9 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     }
 }
 
-export async function PUT(req: NextApiRequest, res: NextApiResponse) {
+export async function PUT(req: NextRequest, res: NextApiResponse) {
     const auth = getAuth();
-    const token = req?.headers.get("authorization").split(" ")[1];
+    const token = req?.headers.get("authorization")?.split(" ")[1];
     if (!token) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

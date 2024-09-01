@@ -1,18 +1,18 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import { customInitApp } from "@/lib/firebase/admin";
 import { getAuth } from "firebase-admin/auth";
 import { db } from "@/lib/firebase/config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { auth as auth2 } from "@/lib/firebase/config";
 
 customInitApp();
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextApiResponse) {
     const auth = getAuth();
 
     try {
-        const token = req?.headers.get("authorization").split(" ")[1];
+        const token = req?.headers.get("authorization")?.split(" ")[1];
         if (!token) {
             return res.status(401).json({ error: "Unauthorized" });
         }
@@ -37,17 +37,16 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     }
 }
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextApiResponse) {
     const auth = getAuth();
 
     try {
-        const token = req?.headers.get("authorization").split(" ")[1];
+        const token = req?.headers.get("authorization")?.split(" ")[1];
         if (!token) {
             return res.status(401).json({ error: "Unauthorized" });
         }
         const decodedToken = await auth.verifyIdToken(token);
         const uid = decodedToken.uid;
-        // user data bledny format danych
         const userData = await req.json();
 
         await setDoc(doc(db, "users", uid), userData, {
