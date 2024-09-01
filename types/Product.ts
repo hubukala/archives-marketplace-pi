@@ -1,15 +1,17 @@
+import { ReactImageGalleryItem } from "react-image-gallery";
+
 export interface ProductType {
-    id: string;
-    image: string[];
-    title: string;
-    size: string;
-    price: string | number;
-    category: string;
-    condition: string;
-    description: string;
-    designer: string;
-    user_id: string;
-    seller_email: string;
+    id?: string;
+    images?: string[] | ReactImageGalleryItem[];
+    title?: string;
+    size?: string;
+    price?: string | number;
+    category?: string;
+    condition?: string;
+    description?: string;
+    designer?: string;
+    user_id?: string;
+    seller_email?: string;
     buyer_id?: string;
     buyer_email?: string;
     available?: boolean;

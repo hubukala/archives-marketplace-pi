@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
 import getValidToken from "@/app/utils/get-valid-token";
+import { ProductType } from "@/types/Product";
 
 const useProductUpdate = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const productUpdate = async (productData: string) => {
+    const productUpdate = async (productData: ProductType) => {
         setLoading(true);
         setError(null);
 

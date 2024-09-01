@@ -11,7 +11,7 @@ import {
 import Button from "@/app/components/ui/button/button";
 import { useUserDetails } from "@/lib/api/user-details";
 import useAuth from "@/app/hooks/useAuth";
-import { Field, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import Loader from "@/app/components/ui/loader/loader";
 
 const AccountDetailsForm = () => {
@@ -50,12 +50,10 @@ const AccountDetailsForm = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleUpdate = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
+    const handleUpdate = async (values: typeof formData) => {
         try {
-            await updater("/api/user/details", formData);
+            await updater("/api/user/details", values);
             alert("User information updated successfully");
-            mutate(); // Re-fetch the user data to update the local state
         } catch (err) {
             console.error("Error updating user information:", err);
             alert("Error updating user information");
@@ -72,91 +70,95 @@ const AccountDetailsForm = () => {
 
     return (
         <AccountInfoForm>
-            <Formik initialValues={formData} onSubmit={handleInputs}>
-                <AccountDetailsFormWrapper>
-                    <AccountInfoRow>
-                        <AccountInfoInputWrapper>
-                            <AccountInputLabel>First name</AccountInputLabel>
-                            <Input
-                                name="fname"
-                                type="text"
-                                onChange={handleInputs}
-                                value={formData?.fname}
+            <Formik initialValues={formData} onSubmit={handleUpdate}>
+                <Form>
+                    <AccountDetailsFormWrapper>
+                        <AccountInfoRow>
+                            <AccountInfoInputWrapper>
+                                <AccountInputLabel>
+                                    First name
+                                </AccountInputLabel>
+                                <Input
+                                    name="fname"
+                                    type="text"
+                                    onChange={handleInputs}
+                                    value={formData?.fname}
+                                />
+                            </AccountInfoInputWrapper>
+                            <AccountInfoInputWrapper>
+                                <AccountInputLabel>Last name</AccountInputLabel>
+                                <Input
+                                    name="lname"
+                                    type="text"
+                                    onChange={handleInputs}
+                                    value={formData?.lname}
+                                />
+                            </AccountInfoInputWrapper>
+                        </AccountInfoRow>
+                        <AccountInfoRow>
+                            <AccountInfoInputWrapper>
+                                <AccountInputLabel>Bio</AccountInputLabel>
+                                <Field
+                                    name="bio"
+                                    type="text"
+                                    onChange={handleInputs}
+                                    value={formData?.bio}
+                                    as="textarea"
+                                    className="formik-textarea"
+                                />
+                            </AccountInfoInputWrapper>
+                        </AccountInfoRow>
+                        <AccountInfoRow>
+                            <AccountInfoInputWrapper>
+                                <AccountInputLabel>City</AccountInputLabel>
+                                <Input
+                                    name="city"
+                                    type="text"
+                                    onChange={handleInputs}
+                                    value={formData?.city}
+                                />
+                            </AccountInfoInputWrapper>
+                            <AccountInfoInputWrapper>
+                                <AccountInputLabel>ZIP code</AccountInputLabel>
+                                <Input
+                                    name="zipcode"
+                                    type="text"
+                                    onChange={handleInputs}
+                                    value={formData?.zipcode}
+                                />
+                            </AccountInfoInputWrapper>
+                        </AccountInfoRow>
+                        <AccountInfoRow>
+                            <AccountInfoInputWrapper>
+                                <AccountInputLabel>
+                                    Street adress
+                                </AccountInputLabel>
+                                <Input
+                                    name="street"
+                                    type="text"
+                                    onChange={handleInputs}
+                                    value={formData?.street}
+                                />
+                            </AccountInfoInputWrapper>
+                            <AccountInfoInputWrapper>
+                                <AccountInputLabel>Apt/Suite</AccountInputLabel>
+                                <Input
+                                    name="suite"
+                                    type="text"
+                                    onChange={handleInputs}
+                                    value={formData?.suite}
+                                />
+                            </AccountInfoInputWrapper>
+                        </AccountInfoRow>
+                        <div>
+                            <Button
+                                variant="primary"
+                                type="submit"
+                                label="SAVE"
                             />
-                        </AccountInfoInputWrapper>
-                        <AccountInfoInputWrapper>
-                            <AccountInputLabel>Last name</AccountInputLabel>
-                            <Input
-                                name="lname"
-                                type="text"
-                                onChange={handleInputs}
-                                value={formData?.lname}
-                            />
-                        </AccountInfoInputWrapper>
-                    </AccountInfoRow>
-                    <AccountInfoRow>
-                        <AccountInfoInputWrapper>
-                            <AccountInputLabel>Bio</AccountInputLabel>
-                            <Field
-                                name="bio"
-                                type="text"
-                                onChange={handleInputs}
-                                value={formData?.bio}
-                                as="textarea"
-                                className="formik-textarea"
-                            />
-                        </AccountInfoInputWrapper>
-                    </AccountInfoRow>
-                    <AccountInfoRow>
-                        <AccountInfoInputWrapper>
-                            <AccountInputLabel>City</AccountInputLabel>
-                            <Input
-                                name="city"
-                                type="text"
-                                onChange={handleInputs}
-                                value={formData?.city}
-                            />
-                        </AccountInfoInputWrapper>
-                        <AccountInfoInputWrapper>
-                            <AccountInputLabel>ZIP code</AccountInputLabel>
-                            <Input
-                                name="zipcode"
-                                type="text"
-                                onChange={handleInputs}
-                                value={formData?.zipcode}
-                            />
-                        </AccountInfoInputWrapper>
-                    </AccountInfoRow>
-                    <AccountInfoRow>
-                        <AccountInfoInputWrapper>
-                            <AccountInputLabel>Street adress</AccountInputLabel>
-                            <Input
-                                name="street"
-                                type="text"
-                                onChange={handleInputs}
-                                value={formData?.street}
-                            />
-                        </AccountInfoInputWrapper>
-                        <AccountInfoInputWrapper>
-                            <AccountInputLabel>Apt/Suite</AccountInputLabel>
-                            <Input
-                                name="suite"
-                                type="text"
-                                onChange={handleInputs}
-                                value={formData?.suite}
-                            />
-                        </AccountInfoInputWrapper>
-                    </AccountInfoRow>
-                    <div>
-                        <Button
-                            variant="primary"
-                            onClick={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                handleUpdate(e)
-                            }
-                            label="SAVE"
-                        />
-                    </div>
-                </AccountDetailsFormWrapper>
+                        </div>
+                    </AccountDetailsFormWrapper>
+                </Form>
             </Formik>
         </AccountInfoForm>
     );

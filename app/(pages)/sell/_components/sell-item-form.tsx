@@ -25,6 +25,7 @@ import { notify } from "@/app/components/ui/toast-notification/toast-notificatio
 import Warning from "@/app/components/ui/warning/warning";
 import useAuth from "@/app/hooks/useAuth";
 import Loader from "@/app/components/ui/loader/loader";
+import { ProductType } from "@/types/Product";
 
 type SellFormPropsType = {
     type?: "edit" | "create";
@@ -53,11 +54,9 @@ const SellForm = ({
         user?.street &&
         user?.city &&
         user?.zipcode;
-    const [successMessage, setSuccessMessage] = useState(false);
 
-    const [filesPreview, setFilesPreview] = useState([]);
-    const [imageUpload, setImageUpload] = useState([]);
-    const [imageUrls, setImageUrls] = useState([]);
+    const [filesPreview, setFilesPreview] = useState<string[]>([]);
+    const [imageUpload, setImageUpload] = useState<File[]>([]);
 
     const uploadFile = async (
         imageUpload: File[],
@@ -112,7 +111,7 @@ const SellForm = ({
             ),
     });
 
-    const onSubmit = async (values) => {
+    const onSubmit = async (values: ProductType) => {
         if (type === "edit") {
             const payload = {
                 ...values,
@@ -147,9 +146,9 @@ const SellForm = ({
         }
     };
 
-    const handleOnChange = (event) => {
+    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
-        Array.from(files).map(
+        Array.from(files as ArrayLike<File>).map(
             (el) => (
                 setImageUpload((prev) => [...prev, el]),
                 setFilesPreview((prev) => [...prev, URL.createObjectURL(el)])
@@ -374,14 +373,6 @@ const SellForm = ({
                             disabled={!isUserDetailsFilled}
                             // onClick={formik.handleSubmit}
                         />
-                        <button onClick={resetForm}>reset form</button>
-                        <p>ERRORS:</p>
-                        {JSON.stringify(errors)}
-                        <br />
-                        <p>VALUES:</p>
-                        {JSON.stringify(values)}
-                        <p>Image urls </p>
-                        {imageUrls}
                     </Form>
                 )}
             </Formik>

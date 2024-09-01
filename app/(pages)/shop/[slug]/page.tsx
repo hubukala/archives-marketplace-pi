@@ -14,7 +14,7 @@ import {
     TrackingNumberButtonsWrapper,
     TrackingNumberModalWrapper,
 } from "./_components/style";
-import ReactImageGallery from "react-image-gallery";
+import ReactImageGallery, { ReactImageGalleryItem } from "react-image-gallery";
 import Button from "@/app/components/ui/button/button";
 import useProductPurchase from "@/lib/api/product-purchase";
 import { auth } from "@/lib/firebase/config";
@@ -29,6 +29,7 @@ import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import useProductUpdate from "@/lib/api/product-update";
 import useAuth from "@/app/hooks/useAuth";
+import { ProductType } from "@/types/Product";
 
 export default function ProductDetails() {
     const { user, loading: userLoading } = useAuth();
@@ -127,10 +128,10 @@ export default function ProductDetails() {
         ),
     });
 
-    const onSubmit = async (values) => {
+    const onSubmit = async (values: ProductType) => {
         const payload = {
             ...values,
-            id: product?.id,
+            id: product?.id as string,
         };
 
         const result = await productUpdate(payload);
@@ -148,7 +149,7 @@ export default function ProductDetails() {
     const markAsPaid = async () => {
         const payload = {
             paid: true,
-            id: product?.id,
+            id: product?.id as string,
         };
 
         const result = await productUpdate(payload);
@@ -193,15 +194,17 @@ export default function ProductDetails() {
         <div>
             <ProductSection>
                 <GallerySection>
-                    <ReactImageGallery items={product?.image ?? []} />
+                    <ReactImageGallery
+                        items={
+                            (product?.images as ReactImageGalleryItem[]) ?? []
+                        }
+                    />
                     <ProductDescription>
                         <h2>{product?.title}</h2>
                         <ProductDetail>SIZE: {product?.size}</ProductDetail>
                         <ProductDetail>
                             CONDITION: {product?.condition}
                         </ProductDetail>
-                        {/* todo: add seller profile page */}
-                        {/* <ProductDetails>SELLER: john</ProductDetails> */}
                         <ProductDetail>{product?.description}</ProductDetail>
                         <ProductPrice>$ {product?.price ?? ""}</ProductPrice>
                         {product?.buyer_id === uid &&

@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { auth } from "@/lib/firebase/config";
 import { onAuthStateChanged, User } from "firebase/auth";
 import axios from "axios";
+import { UserType } from "@/types/User";
 
 const useAuth = () => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<UserType | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

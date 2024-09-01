@@ -20,7 +20,9 @@ const InputsSection = styled.div`
     gap: 14px;
 `;
 
-const Input = styled(Field)(InputStyles);
+const Input = styled(Field)`
+    ${InputStyles}
+`;
 
 const InputError = styled(ErrorMessage)`
     color: red;

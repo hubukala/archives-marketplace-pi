@@ -3,8 +3,8 @@ import { SideBarWrapper, SideBarButton } from "./style";
 
 type SideBarProps = {
     sideBarItems: Array<Record<string, string | undefined>>;
-    category: string | undefined;
     setCategory: any;
+    category?: string | undefined;
 };
 
 const SideBar = ({ sideBarItems, category, setCategory }: SideBarProps) => {

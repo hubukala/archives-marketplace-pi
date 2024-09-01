@@ -25,7 +25,7 @@ export default function Account({
     const router = useRouter();
     const [category, setCategory] = useState("/account");
     const { user, loading } = useAuth();
-    const fileInputRef = useRef(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const uniqueId = uuidv4();
 
     const { userDetails, isLoading, isError, mutate, updater } =
@@ -58,7 +58,17 @@ export default function Account({
         fileInputRef?.current?.click();
     };
 
-    const handleAvatarUpload = async (event) => {
+    const handleAvatarUpload = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        if (
+            !event.target ||
+            !event.target.files ||
+            event.target.files.length === 0
+        ) {
+            return;
+        }
+
         const file = event?.target?.files[0];
         const avatarRef = ref(storage, `avatars/${file.name + uniqueId}`);
         const snapshot = await uploadBytes(avatarRef, file);
@@ -71,7 +81,7 @@ export default function Account({
         try {
             await updater("/api/user/details", formData);
             alert("User information updated successfully");
-            mutate(); // Re-fetch the user data to update the local state
+            // mutate();
         } catch (err) {
             console.error("Error updating user information:", err);
             alert("Error updating user information");
@@ -89,7 +99,6 @@ export default function Account({
     return (
         <AccountWrapper>
             <AccountInfoWrapper>
-                {category}
                 <FileUploadInput
                     type="file"
                     id="file"
@@ -112,7 +121,6 @@ export default function Account({
                 {user?.email} <br />
             </AccountInfoWrapper>
             <ContentWrapper>
-                {/* sidebar */}
                 <SideBar
                     sideBarItems={SIDEBAR_ITEMS}
                     setCategory={setCategory}

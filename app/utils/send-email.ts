@@ -1,5 +1,4 @@
 import { Resend } from "resend";
-import EmailTemplate from "./email-template";
 
 type SendEmailPropsType = {
     to: string;
