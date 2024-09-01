@@ -1,0 +1,43 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches:
+      - main  # Deploy when there's a push to the main branch
+  pull_request:
+    branches:
+      - main  # Optionally run on pull requests to main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Specify the Node.js version you're using
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run TypeScript check
+        run: npm run type-check  # Ensure there are no TypeScript errors
+        if: exists('tsconfig.json')  # Run only if the project uses TypeScript
+
+      - name: Lint codebase
+        run: npm run lint  # Run linting to ensure code quality
+
+      - name: Build Next.js app
+        run: npm run build
+
+      - name: Deploy to Vercel
+        run: |
+          npm install -g vercel
+          vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
