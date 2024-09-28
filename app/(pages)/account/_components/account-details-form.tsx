@@ -13,6 +13,7 @@ import { useUserDetails } from "@/lib/api/user-details";
 import useAuth from "@/app/hooks/useAuth";
 import { Field, Form, Formik } from "formik";
 import Loader from "@/app/components/ui/loader/loader";
+import { notify } from "@/app/components/ui/toast-notification/toast-notification";
 
 const AccountDetailsForm = () => {
     const { user, loading } = useAuth();
@@ -49,14 +50,25 @@ const AccountDetailsForm = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleUpdate = async (values: typeof formData) => {
+    const handleUpdate = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
         try {
-            await updater("/api/user/details", values);
-            alert("User information updated successfully");
+            await updater("/api/user/details", formData);
+            notify({
+                type: "success",
+                message: "User information updated successfully",
+            });
         } catch (err) {
             console.error("Error updating user information:", err);
-            alert("Error updating user information");
+            notify({
+                type: "error",
+                message: "Error updating user information",
+            });
         }
+    };
+
+    const onSubmit = () => {
+        console.log("submitted");
     };
 
     if (loading || isLoading || !userDetails) {
@@ -69,7 +81,7 @@ const AccountDetailsForm = () => {
 
     return (
         <AccountInfoForm>
-            <Formik initialValues={formData} onSubmit={handleUpdate}>
+            <Formik initialValues={formData} onSubmit={onSubmit}>
                 <Form>
                     <AccountDetailsFormWrapper>
                         <AccountInfoRow>
@@ -152,7 +164,9 @@ const AccountDetailsForm = () => {
                         <div>
                             <Button
                                 variant="primary"
-                                type="submit"
+                                onClick={(
+                                    e: React.ChangeEvent<HTMLInputElement>
+                                ) => handleUpdate(e)}
                                 label="SAVE"
                             />
                         </div>

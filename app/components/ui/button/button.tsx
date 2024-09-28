@@ -7,7 +7,7 @@ export interface ButtonProps {
     label: String;
     type?: "button" | "reset" | "submit" | undefined;
     disabled?: boolean;
-    onClick?: () => void;
+    onClick?: any;
     isLoading?: boolean;
 }
 
