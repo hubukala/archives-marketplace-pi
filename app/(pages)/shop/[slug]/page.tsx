@@ -301,22 +301,32 @@ export default function ProductDetails() {
                             </>
                         )}
                     </ButtonSection>
-                    {product?.user_id === uid && (
-                        <p>
-                            You can always contact the buyer at:{" "}
-                            {product?.buyer_email}
-                        </p>
-                    )}
-                    {product?.buyer_id === uid && (
-                        <p>
-                            You can always contact the seller at:{" "}
-                            {product?.seller_email}
-                        </p>
-                    )}
-                    <p>
-                        or send a message to our support team at
-                        support@archives-marketplace.site
-                    </p>
+                    {product?.user_id === uid &&
+                        product?.available === false && (
+                            <>
+                                <p>
+                                    You can always contact the buyer at:{" "}
+                                    {product?.buyer_email}
+                                </p>
+                                <p>
+                                    or send a message to our support team at
+                                    support@archives-marketplace.site
+                                </p>
+                            </>
+                        )}
+                    {product?.buyer_id === uid &&
+                        product?.available === false && (
+                            <>
+                                <p>
+                                    You can always contact the seller at:{" "}
+                                    {product?.seller_email}
+                                </p>
+                                <p>
+                                    or send a message to our support team at
+                                    support@archives-marketplace.site
+                                </p>
+                            </>
+                        )}
                 </GallerySection>
             </ProductSection>
             <Modal open={deleteProductModalOpen} height="180px">
