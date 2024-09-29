@@ -70,7 +70,7 @@ const LoginForm = ({ setLoginModalOpen }: LoginFormProps) => {
             >
                 {() => (
                     <Form>
-                        <div>Username</div>
+                        <div>E-mail address</div>
                         <LoginInput type="email" id="email" name="email" />
                         <InputError name="email" component="div" />
                         <div>Password</div>

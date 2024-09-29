@@ -5,6 +5,7 @@ import axios from "axios";
 import * as Yup from "yup";
 import { Form, Formik, FormikHelpers } from "formik";
 import { InputError } from "@/app/components/ui/input/style";
+import { notify } from "@/app/components/ui/toast-notification/toast-notification";
 
 interface FormValues {
     email: string;
@@ -36,6 +37,10 @@ const RegisterForm = ({ setRegisterModalOpen }: RegisterFormProps) => {
             const response = await axios.post("api/auth/register", values);
             setStatus({ success: true });
             setRegisterModalOpen(false);
+            notify({
+                type: "success",
+                message: "Account created successfully",
+            });
         } catch (err) {
             if (axios.isAxiosError(err) && err.response) {
                 setStatus({ error: err.response.data.error });
@@ -49,7 +54,7 @@ const RegisterForm = ({ setRegisterModalOpen }: RegisterFormProps) => {
 
     return (
         <RegisterFormWrapper>
-            <h1>Sign in</h1>
+            <h1>Sign up</h1>
             <Description>
                 Create account to get full access to buying and selling.
             </Description>
@@ -60,7 +65,7 @@ const RegisterForm = ({ setRegisterModalOpen }: RegisterFormProps) => {
             >
                 {() => (
                     <Form>
-                        <div>Username</div>
+                        <div>E-mail address</div>
                         <RegisterInput type="email" id="email" name="email" />
                         <InputError name="email" component="div" />
                         <div>Password</div>
