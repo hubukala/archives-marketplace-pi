@@ -164,6 +164,11 @@ export default function ProductDetails() {
         }
     };
 
+    const displaySoldOutButton =
+        !product?.available &&
+        product?.user_id !== uid &&
+        product?.buyer_id !== uid;
+
     if (isLoading) {
         return (
             <ProductSection>
@@ -247,7 +252,7 @@ export default function ProductDetails() {
                             )}
                     </ProductDescription>
                     <ButtonSection>
-                        {product?.buyer_id ? (
+                        {displaySoldOutButton && (
                             <>
                                 <Button
                                     label="SOLD OUT"
@@ -255,31 +260,34 @@ export default function ProductDetails() {
                                     disabled={true}
                                 />
                             </>
-                        ) : product?.user_id === uid &&
-                          product?.available === true ? (
-                            <>
-                                <Button
-                                    label="EDIT"
-                                    variant="primary"
-                                    onClick={handleEditProduct}
-                                />
-                                <Button
-                                    label="DELETE"
-                                    variant="primary"
-                                    onClick={() =>
-                                        setDeleteProductModalOpen(true)
-                                    }
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <Button
-                                    label="PURCHASE"
-                                    variant="primary"
-                                    onClick={handlePurchaseClicked}
-                                />
-                            </>
                         )}
+                        {product?.user_id === uid &&
+                            product?.available === true && (
+                                <>
+                                    <Button
+                                        label="EDIT"
+                                        variant="primary"
+                                        onClick={handleEditProduct}
+                                    />
+                                    <Button
+                                        label="DELETE"
+                                        variant="primary"
+                                        onClick={() =>
+                                            setDeleteProductModalOpen(true)
+                                        }
+                                    />
+                                </>
+                            )}
+                        {product?.user_id !== uid &&
+                            product?.available === true && (
+                                <>
+                                    <Button
+                                        label="PURCHASE"
+                                        variant="primary"
+                                        onClick={handlePurchaseClicked}
+                                    />
+                                </>
+                            )}
                         {showMarkAsShippedButton && (
                             <>
                                 <Button
