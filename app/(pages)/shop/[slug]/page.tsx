@@ -79,15 +79,13 @@ export default function ProductDetails() {
                     type: "success",
                     message: "Purchase completed!",
                 });
-                console.log("Purchase completed");
-                router.push("/account");
+                router.push("/account/orders");
             } else {
                 notify({
                     type: "error",
                     message:
                         "Please fill your account details before making a purchase",
                 });
-                console.log("Failed to purchase an item");
             }
         } else {
             notify({
@@ -285,6 +283,7 @@ export default function ProductDetails() {
                                         label="PURCHASE"
                                         variant="primary"
                                         onClick={handlePurchaseClicked}
+                                        disabled={!uid}
                                     />
                                 </>
                             )}
