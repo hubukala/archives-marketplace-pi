@@ -16,6 +16,7 @@ import useAuth from "@/app/hooks/useAuth";
 import Loader from "@/app/components/ui/loader/loader";
 import { v4 as uuidv4 } from "uuid";
 import { useUserDetails } from "@/lib/api/user-details";
+import { notify } from "@/app/components/ui/toast-notification/toast-notification";
 
 export default function Account({
     children,
@@ -79,16 +80,23 @@ export default function Account({
         };
 
         try {
+            mutate("/api/user/details", { ...userDetails, avatar: url }, false);
             await updater("/api/user/details", formData);
-            alert("User information updated successfully");
-            // mutate();
+            mutate("/api/user/details");
+            notify({
+                type: "success",
+                message: "User information updated successfully",
+            });
         } catch (err) {
             console.error("Error updating user information:", err);
-            alert("Error updating user information");
+            notify({
+                type: "error",
+                message: "Error updating user information",
+            });
         }
     };
 
-    if (loading) {
+    if (loading || isLoading) {
         return (
             <AccountWrapper>
                 <Loader />
@@ -110,15 +118,17 @@ export default function Account({
                     width={100}
                     height={100}
                     src={
-                        user?.avatar ?? "https://dummyimage.com/600x400/000/fff"
+                        userDetails?.avatar
+                            ? userDetails.avatar
+                            : "https://dummyimage.com/600x400/000/fff"
                     }
                     alt="AV"
                     onClick={handleAvatarClick}
                 />{" "}
                 <br />
-                {user?.fname} {user?.lname}
-                <br />
-                {user?.email} <br />
+                {userDetails?.email} <br />
+                {userDetails?.joined ? "Joined in: " : null}
+                {userDetails?.joined}
             </AccountInfoWrapper>
             <ContentWrapper>
                 <SideBar
