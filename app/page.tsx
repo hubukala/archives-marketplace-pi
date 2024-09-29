@@ -49,7 +49,7 @@ export default function Home() {
                     </LoadingWrapper>
                 ) : (
                     <ProductsList
-                        arr={products as ProductType[]}
+                        arr={products?.slice(0, 5) as ProductType[]}
                         message="No products found in this category"
                     />
                 )}
