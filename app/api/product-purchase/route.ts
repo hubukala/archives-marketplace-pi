@@ -71,12 +71,9 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
                     <span style="font-family:arial, 'helvetica neue', helvetica, sans-serif; display: flex; justify-content: center; padding-bottom: 5px;">${sellerData?.fname} ${sellerData?.lname} (${sellerData?.email})</span>
                     <span style="font-family:arial, 'helvetica neue', helvetica, sans-serif; display: flex; justify-content: center; padding-bottom: 5px;">${sellerData?.street} ${sellerData?.suite}</span>
                     <span style="font-family:arial, 'helvetica neue', helvetica, sans-serif; display: flex; justify-content: center; padding-bottom: 5px;">${sellerData?.zipcode} ${sellerData?.city}</span>
-                    <p style="font-family:arial, 'helvetica neue', helvetica, sans-serif; display: flex; justify-content: center; padding-bottom: 20px;">${productData?.iban}</p>
+                    <p style="font-family:arial, 'helvetica neue', helvetica, sans-serif; display: flex; justify-content: center; padding-bottom: 20px;">Account number: ${productData?.iban}</p>
                     <div style="border-bottom: 1px solid #DCDCDC; margin-bottom: 20px;"></div>
                     <div style="width: 100%; margin: 0 auto; gap: 20px;">
-                      <div style="width: 100px; margin: 0 auto;">
-                        <img src="${productData?.images[0]}" alt="product-thumbnail" width="100" style="width: 100px; margin: 0 auto;">
-                      </div>
                       <div style="font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace; width: 100%; margin: 0 auto; text-align: center;">
                         ${productData?.title} <br>
                         Color: ${productData?.color} <br>
@@ -110,9 +107,6 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
                     </div>
                     <h1 style="font-family:arial, 'helvetica neue', helvetica, sans-serif; width: 100%; margin: 0 auto; text-align: center;">Your item was sold</h1>
                     <div style="width: 100%; margin: 0 auto; gap: 20px;">
-                      <div style="width: 100px; margin: 0 auto;">
-                        <img src="${productData?.images[0]}" alt="product-thumbnail" width="100" style="width: 100px; margin: 0 auto;">
-                      </div>
                       <div style="font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace; width: 100%; margin: 0 auto; text-align: center;">
                         ${productData?.title} <br>
                         Color: ${productData?.color} <br>
@@ -134,6 +128,9 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
                 text: buyerText,
                 html: buyerHtml,
             }),
+        ]);
+
+        await Promise.all([
             sendEmail({
                 to: sellerData.email as string,
                 subject: sellerSubject,
@@ -144,11 +141,11 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
 
         return NextResponse.json(
             { status: 200 },
-            { statusText: "User information updated successfully" }
+            { statusText: "Item purchased successfully" }
         );
     } catch (err) {
         return NextResponse.json(
-            { error: "Error updating information:", err },
+            { error: "There was an error with item purchase:", err },
             { status: 500 }
         );
     }
