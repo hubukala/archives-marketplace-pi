@@ -12,6 +12,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/lib/firebase/config";
 import SideBar from "@/app/components/layout/sidebar/sidebar";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import useAuth from "@/app/hooks/useAuth";
 import Loader from "@/app/components/ui/loader/loader";
 import { v4 as uuidv4 } from "uuid";
@@ -24,6 +25,7 @@ export default function Account({
     children: React.ReactNode;
 }>) {
     const router = useRouter();
+    const pathname = usePathname();
     const [category, setCategory] = useState<string | undefined>("/account");
     const { user, loading } = useAuth();
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -134,6 +136,7 @@ export default function Account({
                 <SideBar
                     sideBarItems={SIDEBAR_ITEMS}
                     setCategory={setCategory}
+                    category={pathname}
                 />
                 <ContentBox>{children}</ContentBox>
             </ContentWrapper>
