@@ -142,7 +142,7 @@ const AccountDetailsForm = () => {
                         <AccountInfoRow>
                             <AccountInfoInputWrapper>
                                 <AccountInputLabel>
-                                    Street adress
+                                    Street name
                                 </AccountInputLabel>
                                 <Input
                                     name="street"
@@ -152,7 +152,9 @@ const AccountDetailsForm = () => {
                                 />
                             </AccountInfoInputWrapper>
                             <AccountInfoInputWrapper>
-                                <AccountInputLabel>Apt/Suite</AccountInputLabel>
+                                <AccountInputLabel>
+                                    House number, apt/suite number
+                                </AccountInputLabel>
                                 <Input
                                     name="suite"
                                     type="text"
