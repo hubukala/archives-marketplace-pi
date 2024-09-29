@@ -26,6 +26,7 @@ import Warning from "@/app/components/ui/warning/warning";
 import useAuth from "@/app/hooks/useAuth";
 import Loader from "@/app/components/ui/loader/loader";
 import { ProductType } from "@/types/Product";
+import { useRouter } from "next/navigation";
 
 type SellFormPropsType = {
     type?: "edit" | "create";
@@ -40,6 +41,7 @@ const SellForm = ({
 }: SellFormPropsType) => {
     const { user, loading: userLoading } = useAuth();
     const uniqueId = uuidv4();
+    const router = useRouter();
     const { productAdd, loading, error } = useProductAdd();
     const {
         productUpdate,
@@ -56,6 +58,7 @@ const SellForm = ({
 
     const [filesPreview, setFilesPreview] = useState<string[]>([]);
     const [imageUpload, setImageUpload] = useState<File[]>([]);
+    const [fileError, setFileError] = useState<string | null>(null);
 
     const uploadFile = async (
         imageUpload: File[],
@@ -111,6 +114,13 @@ const SellForm = ({
     });
 
     const onSubmit = async (values: ProductType) => {
+        if (imageUpload.length < 1) {
+            setFileError("At least one image is required");
+            return;
+        }
+
+        setFileError(null);
+
         if (type === "edit") {
             const payload = {
                 ...values,
@@ -138,9 +148,17 @@ const SellForm = ({
 
             const result = await productAdd(payload);
             if (result) {
-                console.log("Product uploaded successfully");
+                notify({
+                    type: "success",
+                    message: "Product posted successfully",
+                });
+                router.push("/account/posted-items");
             } else {
                 console.log("Failed to upload item");
+                notify({
+                    type: "error",
+                    message: "Failed to post your item",
+                });
             }
         }
     };
@@ -153,6 +171,8 @@ const SellForm = ({
                 setFilesPreview((prev) => [...prev, URL.createObjectURL(el)])
             )
         );
+
+        setFileError(null);
     };
 
     const handleRemove = (index: Number) => {
@@ -174,7 +194,7 @@ const SellForm = ({
                 <Warning
                     message="Your account details are not provided yet and you will not be
                     able to post any items for sale. Go to 'ACCOUNT' tab
-                    to provide address, first and last names"
+                    to provide address, first and last name"
                 />
             )}
             {!user && (
@@ -352,7 +372,7 @@ const SellForm = ({
                                 <FileUploadButton>
                                     <FileUploadInput
                                         type="file"
-                                        id="file"
+                                        id="images"
                                         name="images"
                                         multiple
                                         onChange={(event) => {
@@ -362,6 +382,16 @@ const SellForm = ({
                                     SELECT IMAGES
                                 </FileUploadButton>
                                 <InputError name="images" component="div" />
+                                {fileError && (
+                                    <div
+                                        style={{
+                                            color: "red",
+                                            marginTop: "10px",
+                                        }}
+                                    >
+                                        {fileError}
+                                    </div>
+                                )}
                             </>
                         )}
                         <br />

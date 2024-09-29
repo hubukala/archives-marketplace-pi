@@ -26,7 +26,7 @@ export default function Account({
 }>) {
     const router = useRouter();
     const pathname = usePathname();
-    const [category, setCategory] = useState<string | undefined>("/account");
+    const [category, setCategory] = useState<string | undefined>(pathname);
     const { user, loading } = useAuth();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const uniqueId = uuidv4();
