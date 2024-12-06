@@ -5,7 +5,7 @@ const firebaseAdminConfig = {
         projectId: "archives-marketplace",
         clientEmail:
             "firebase-adminsdk-55nh6@archives-marketplace.iam.gserviceaccount.com",
-        privateKey: process.env.FIREBASE_PRIVATE_KEY,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
     }),
 };
 
