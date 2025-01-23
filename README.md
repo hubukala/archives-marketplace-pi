@@ -26,7 +26,7 @@ When you're done with setting up your account follow these steps:
 1. From your command line
 ```
 # clone this repository 
-$ git clone https://github.com/github_username/repo_name.git
+$ git clone https://github.com/hubukala/archives-marketplace-pi.git
 ```
 2. add your own firebase config file to the project
 3. create "users" and "products" collections in your firestore database
